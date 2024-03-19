@@ -98,6 +98,7 @@ import {
   provideNetlifyLoader,
   registerLocaleData,
   setRootDomAdapter
+<<<<<<< HEAD
 } from "./chunk-HP6DT5TB.js";
 import {
   IMAGE_CONFIG
@@ -105,6 +106,12 @@ import {
 import "./chunk-V2DXGMIT.js";
 import "./chunk-UKEHM6V6.js";
 import "./chunk-ZDOIMVJD.js";
+=======
+} from "./chunk-GQA3GX45.js";
+import {
+  IMAGE_CONFIG
+} from "./chunk-QPEF36NU.js";
+>>>>>>> origin/main
 export {
   APP_BASE_HREF,
   AsyncPipe,

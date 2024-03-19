@@ -5,6 +5,7 @@ import { Observable, catchError, map } from 'rxjs';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Route, Router, RouterStateSnapshot } from '@angular/router';
 import { Player } from './auth.context';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -54,7 +55,7 @@ export class AuthService implements CanActivate{
     }
     return this.http.get(`${this.apiUrl}/player/${this.getLoginId()}`).pipe(map((value: any)=>Object.assign(new Player(),value)));
   }
-  
+
   isAuthenticated(): boolean {
     return !! this.getLoginId();
 }
