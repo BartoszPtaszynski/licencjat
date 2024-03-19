@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginCommand } from './login/login.command';
-import { Observable, catchError } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Route, Router, RouterStateSnapshot } from '@angular/router';
+import { Player } from './auth.context';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,12 @@ export class AuthService implements CanActivate{
       return localStorage.getItem("loginID");
     }
     return null;
+  }
+  getUser(): Observable<Player |null> {
+    if( this.getLoginId() == null) {
+      return null;
+    }
+    return this.http.get(`${this.apiUrl}/player/${this.getLoginId()}`).pipe(map((value: any)=>Object.assign(new Player(),value)));
   }
   
   isAuthenticated(): boolean {
