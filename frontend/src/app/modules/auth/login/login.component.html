@@ -1,20 +1,22 @@
 <div>
     <h1>Hi Welcome Back</h1>
      <h3>Login Here</h3>
+     <div *ngIf="loginError">Nie poprawny login lub hasło</div>
       <form  (ngSubmit)="onSubmit()">
         <div>
           <div>
           <label for="username">Username</label>
-          <input id="username" [(ngModel)]="loginCommand.username"  type="text">
+          <input id="username" name="username" [(ngModel)]="loginCommand.username"  type="text">
           </div>
 
           <div>
           <label for="password">password</label>
-          <input id="password" [(ngModel)]="loginCommand.password"  type="password">
+          <input id="password" name="password" [(ngModel)]="loginCommand.password"  type="password">
           </div>
         </div>
         <button>Submit</button>
-        <span>Don't have an account?
-        <a href="/">signUp</a></span>
+        
       </form>
+      <span>Don't have an account?
+        <a href="/">signUp</a></span>
   </div>

@@ -20,8 +20,9 @@ class LoginReq {
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
 
+  loginError: boolean = false;
   loginCommand: LoginReq = {username:'',password:''};
-
+  
   constructor(private _authService: AuthService, private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
    }
 
@@ -30,8 +31,10 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this._authService.authenticate(this.loginCommand).subscribe(
-      result=>console.log(result)
-    )
+    console.log(this.loginCommand.username+this.loginCommand.password);
+    if(! this._authService.login(this.loginCommand)){
+      this.loginError=true;
+    }
+    
   }
 }
