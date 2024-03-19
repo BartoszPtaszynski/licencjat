@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 
-public class Player implements UserDetails {
+public class Player {
     @Id
     @GeneratedValue
     private UUID id;
@@ -31,31 +30,6 @@ public class Player implements UserDetails {
         this.username = userName;
         this.password = password;
         this.email = email;
-    }
-
-    @Override
-    public List getAuthorities() {
-        return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }
 

@@ -6,34 +6,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
-public class PlayerService implements UserDetailsService {
+public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
     private  PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     public PlayerService(PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    public Player loadPlayerByEmail(String email) {
-        return  playerRepository.findPlayerByEmail(email).orElseThrow(()->new UserNotFoundException("User not founded"));
     }
 
     public ResponseEntity<?> register(PlayerRegistrationCommand command)
@@ -49,20 +36,17 @@ public class PlayerService implements UserDetailsService {
         return new ResponseEntity<>("registered",HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> login(PlayerLoginCommand command) {
+    public ResponseEntity<String> login(PlayerLoginCommand command) {
         try {
-            var authToken = new UsernamePasswordAuthenticationToken(command.getUsername(), command.getPassword());
-            SecurityContextHolder.getContext().setAuthentication(this.authenticationManager.authenticate(authToken));
-            log.info("Login success for user {}", command.getUsername());
-            return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
-        }catch (Exception exception) {
-            log.warn("login FAILED for user {}",command.getUsername());
-            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
-        }
-    }
+            Player player = playerRepository.findPlayerByUsername(command.getUsername()).orElseThrow(()-> new UserNotFoundException("not found"));
+            if(passwordEncoder.matches(command.getPassword(),player.getPassword())) {
+                return new ResponseEntity<>("success"+player.getId(),HttpStatus.OK);
 
-    @Override
-    public Player loadUserByUsername(String username) throws UsernameNotFoundException {
-        return playerRepository.findPlayerByUsername(username).orElseThrow(()->new UsernameNotFoundException(username));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+        }
+    } catch (UserNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
     }
+}
 }
