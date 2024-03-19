@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 public class PlayerService {
@@ -40,7 +42,7 @@ public class PlayerService {
         try {
             Player player = playerRepository.findPlayerByUsername(command.getUsername()).orElseThrow(()-> new UserNotFoundException("not found"));
             if(passwordEncoder.matches(command.getPassword(),player.getPassword())) {
-                return new ResponseEntity<>("success"+player.getId(),HttpStatus.OK);
+                return new ResponseEntity<>(player.getId().toString(),HttpStatus.OK);
 
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
@@ -49,4 +51,20 @@ public class PlayerService {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
     }
 }
+
+    public ResponseEntity<?> findPlayerInfoById(UUID id) {
+        try {
+            Player player = playerRepository.findPlayerById(id).orElseThrow(()->new UserNotFoundException("player not found"));
+            PlayerInfo playerInfo = PlayerInfo.builder()
+                    .id(player.getId())
+                    .username(player.getUsername())
+                    .email(player.getEmail())
+                    .club_id(player.getClub() == null?null:player.getClub().getId())
+                    .build();
+            return new ResponseEntity<>(playerInfo,HttpStatus.ACCEPTED);
+        }catch (UserNotFoundException e) {
+            log.warn(e.getMessage());
+            return new ResponseEntity<>("ERROR",HttpStatus.BAD_REQUEST);
+        }
+    }
 }

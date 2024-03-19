@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> login(@RequestBody PlayerLoginCommand playerReq) {
+    public ResponseEntity<?> login(@RequestBody PlayerLoginCommand playerReq) {
        return playerService.login(playerReq);
     }
 

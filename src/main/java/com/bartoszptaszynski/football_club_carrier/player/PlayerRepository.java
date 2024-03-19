@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface PlayerRepository extends JpaRepository<Player,UUID> {
     Optional<Player> findPlayerByEmail(String username);
+    Optional<Player> findPlayerById(UUID id);
 
     boolean existsByUsername(String username);
 

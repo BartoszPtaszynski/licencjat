@@ -13,10 +13,14 @@ export class HomeComponent implements OnInit {
 
 
   text !:String;
+  textv2:String;
 
-  constructor (private authService:AuthService){
+  constructor (public authService:AuthService){
 
 
+  }
+  isAuthenticated():boolean{
+    return this.authService.isAuthenticated();
   }
   ngOnInit(){
     this.authService.getText().subscribe((data: String)=>{
@@ -25,7 +29,9 @@ export class HomeComponent implements OnInit {
       console.log(this.text)
     },
     (error:HttpErrorResponse)=>{
-      console.log("error",error)
-;    })
+      console.log("error",error);
+      })
+this.textv2=this.authService.getLoginId();
+
   }
 }
