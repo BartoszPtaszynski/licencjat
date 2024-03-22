@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Entity(name = "clubs")
 @Getter
@@ -16,7 +15,7 @@ import java.util.UUID;
 public class Club {
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
     private String name;
     private int rating;
     private int value;

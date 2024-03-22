@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/player")
@@ -17,7 +16,7 @@ public class ApiPlayerController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPlayerInfo(@PathVariable UUID id) {
+    public ResponseEntity<?> getPlayerInfo(@PathVariable String id) {
         return  playerService.findPlayerInfoById(id);
     }
 }

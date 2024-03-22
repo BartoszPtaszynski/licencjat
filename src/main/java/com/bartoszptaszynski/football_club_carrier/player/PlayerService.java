@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -35,7 +34,8 @@ public class PlayerService {
         );
         playerRepository.save(player);
 
-        return new ResponseEntity<>("registered",HttpStatus.CREATED);
+
+        return new ResponseEntity<>(player.getId(),HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> login(PlayerLoginCommand command) {
@@ -52,9 +52,9 @@ public class PlayerService {
     }
 }
 
-    public ResponseEntity<?> findPlayerInfoById(UUID id) {
+    public ResponseEntity<?> findPlayerInfoById(String id) {
         try {
-            Player player = playerRepository.findPlayerById(id).orElseThrow(()->new UserNotFoundException("player not found"));
+            Player player = playerRepository.findPlayerById(Long.valueOf(id)).orElseThrow(()->new UserNotFoundException("player not found"));
             PlayerInfo playerInfo = PlayerInfo.builder()
                     .id(player.getId())
                     .username(player.getUsername())

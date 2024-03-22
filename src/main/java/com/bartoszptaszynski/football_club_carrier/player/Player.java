@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Entity(name = "players")
 @Getter
@@ -18,8 +17,9 @@ import java.util.UUID;
 
 public class Player {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq")
+    @SequenceGenerator(name = "player_seq", sequenceName = "players_seq", allocationSize = 1 )
+    private Long id;
     private String username;
     private String password;
     private String email;

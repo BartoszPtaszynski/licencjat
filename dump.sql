@@ -10,14 +10,14 @@ grant connect, create, temporary on database logindb to bartoszptaszynski;
 
 create table clubs
 (
-    id        uuid        not null
+    id        Long        not null
         constraint "CLUBS_pkey"
             primary key,
     name      varchar(30) not null,
     rating    integer     not null,
     value     integer     not null,
     funds     integer     not null,
-    player_id uuid        not null
+    player_id Long        not null
         constraint "CLUBS_player_id_key"
             unique
 );
@@ -27,7 +27,7 @@ alter table clubs
 
 create table footballers
 (
-    id      uuid        not null
+    id      Long        not null
         constraint "FOOTBALLERS_pkey"
             primary key,
     name    varchar(30) not null,
@@ -41,13 +41,13 @@ alter table footballers
 
 create table club_footballers
 (
-    id            uuid not null
+    id            Long not null
         constraint "CLUB_FOOTBALLERS_pkey"
             primary key,
-    club_id       uuid not null
+    club_id       Long not null
         constraint "Club-Footballer_Club_FK"
             references clubs,
-    footballer_id uuid not null
+    footballer_id Long not null
         constraint "Club-Footballer_Footballer_FK"
             references footballers
 );
@@ -57,17 +57,17 @@ alter table club_footballers
 
 create table matches
 (
-    id             uuid    not null
+    id             Long    not null
         constraint "MATCHES_pkey"
             primary key,
     hostteamscore  integer not null,
     guestteamscore integer not null,
-    hostclub_id    uuid    not null
+    hostclub_id    Long    not null
         constraint "MATCHES_hostclub_id_fkey"
             references clubs
         constraint match_club_fk
             references clubs,
-    guestclub_id   uuid    not null
+    guestclub_id   Long    not null
         constraint "MATCHES_guestclub_id_fkey"
             references clubs
         constraint match_club_fkv1
@@ -79,13 +79,13 @@ alter table matches
 
 create table players
 (
-    id       uuid         not null
+    id       Long         not null
         constraint "PLAYERS_pkey"
             primary key,
     email    varchar(50)  not null,
     password varchar(200) not null,
     username varchar(25)  not null,
-    club_id  uuid
+    club_id  Long
         constraint "PLAYERS_club_id_fkey"
             references clubs
         constraint club_fk
@@ -101,12 +101,12 @@ alter table clubs
 
 create table player_friends
 (
-    player_id_1 uuid not null
+    player_id_1 Long not null
         constraint "PLAYER_FRIENDS_player_id_1_fkey"
             references players
         constraint player_friend_player_fk
             references players,
-    player_id_2 uuid not null
+    player_id_2 Long not null
         constraint "PLAYER_FRIENDS_player_id_2_fkey"
             references players
         constraint player_friend_player_fkv2
@@ -120,7 +120,7 @@ alter table player_friends
 
 create table positions
 (
-    id             uuid        not null
+    id             Long        not null
         constraint "POSITIONS_pkey"
             primary key,
     nameofposition varchar(30) not null,
@@ -132,10 +132,10 @@ alter table positions
 
 create table footballer_positions
 (
-    footballer_id uuid not null
+    footballer_id Long not null
         constraint "Footballer_FK"
             references footballers,
-    position_id   uuid not null
+    position_id   Long not null
         constraint "Position_FK"
             references positions,
     constraint "FOOTBALLER_POSITIONS_pkey"
