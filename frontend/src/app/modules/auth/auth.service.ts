@@ -4,6 +4,8 @@ import { LoginCommand } from './login/login.command';
 import { Observable, catchError, map } from 'rxjs';
 import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Route, Router, RouterStateSnapshot } from '@angular/router';
 import { Player } from './auth.context';
+import { RegistrationCommand } from './registration/registration.command';
+import { LoginComponent } from './login/login.component';
 
 
 @Injectable({
@@ -35,6 +37,25 @@ export class AuthService implements CanActivate{
      return message;
   }
 
+  register(command: RegistrationCommand){
+    this.http.post("http://localhost:8080/api/authenticate/register",command,{responseType:'text'})
+    .subscribe(
+      response=>{
+        localStorage.setItem('loginID',response);
+        this.router.navigate(['/']);
+        setTimeout(() => {
+          alert("registered!");
+        }, 500);
+      },(error)=>{
+        switch(error.status) {
+          case 400:
+            console.log("blad");
+        }
+      }
+  
+    ); 
+  }
+
   logout() {
     localStorage.removeItem('loginID');
     console.log(this.isAuthenticated()+"xD")
@@ -42,7 +63,7 @@ export class AuthService implements CanActivate{
     window.location.reload();
   }
 
-   getLoginId(): string| null {
+   getLoginId(): string | null {
     if(typeof localStorage !== 'undefined')
     {
       return localStorage.getItem("loginID");

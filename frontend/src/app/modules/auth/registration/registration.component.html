@@ -1,1 +1,35 @@
-<p>registration works!</p>
+<div>
+    <h1>Hi Welcome in our app</h1>
+     <h3>Sign up Here</h3>
+     <div *ngIf="errorSignUp.status">{{errorSignUp.message}}</div>
+      <form  (ngSubmit)="onSubmit()">
+        <div>
+          <div>
+          <label for="username">Username</label>
+          <input id="username" name="username" [(ngModel)]="registrationReq.username"  type="text" required>
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" [(ngModel)]="registrationReq.email"  type="email"  required>
+            </div>
+
+          <div>
+          <label for="password">password</label>
+          <input id="password" name="password" [(ngModel)]="registrationReq.password"  type="password"  required>
+          </div>
+          <div>
+            <label for="password"> repeat password</label>
+            <input id="password" name="password" [(ngModel)]="registrationReq.passwordRepeat"  type="password"  required>
+            </div>
+
+            <div *ngIf="! passwordIdentical()">
+              <label>hasła nie są identyczne!</label>
+            </div>
+        </div>
+        <button [disabled]="! passwordIdentical()">Submit</button>
+        
+      </form>
+      <span>Don't have an account?
+        <a href="/">signUp</a></span>
+  </div>
