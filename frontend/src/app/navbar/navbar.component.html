@@ -1,20 +1,22 @@
+<h1>Welcome in football club career!</h1>
+<div class="containter">
 <nav class="navbar">
-<ul>
+<ul class="navbar-nav">
 <span  *ngIf="!isAuthenticated()">
-    <li><a href="/login">login</a></li>
-    <li><a href="/register"> register</a></li>
+    <li class="nav-item"><a href="/login">login</a></li>
+    <li class="nav-item"><a href="/register"> register</a></li>
 </span>
 
 <span *ngIf="isAuthenticated()">
-    <li><a href="#" >twój klub</a></li>
-    <li><a href="#">utwórz klub</a></li>
-    <li><a href="#">znajomi</a></li>
-    
+    <li *ngIf="player.clubId" class="nav-item"><a href="#" >twój klub</a></li>
+    <li *ngIf="! player.clubId" class="nav-item"><a href="#">utwórz klub</a></li>
+    <li class="nav-item"><a href="#">znajomi</a></li> 
 </span>
 
-<li><a href="" >about app</a></li>
+<li class="nav-item"><a href="" >about app</a></li>
 <span *ngIf="isAuthenticated()" style="float: right;">
-    <li><a (click)="this.authService.logout()"> logout</a></li>
+    <li class="nav-item"><a (click)="this.authService.logout()"> logout</a></li>
 </span>
 </ul>
 </nav>
+</div>

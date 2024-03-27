@@ -14,7 +14,8 @@ class LoginReq {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'] // Corrected property name
+  styleUrls: ['./login.component.css'],
+  
 })
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
