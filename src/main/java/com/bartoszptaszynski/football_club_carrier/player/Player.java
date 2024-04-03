@@ -17,8 +17,7 @@ import java.util.List;
 
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_seq")
-    @SequenceGenerator(name = "player_seq", sequenceName = "players_seq", allocationSize = 1 )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;

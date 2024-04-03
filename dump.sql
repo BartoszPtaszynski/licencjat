@@ -1,25 +1,17 @@
--- we don't know how to generate root <with-no-name> (class Root) :(
-
-comment on database postgres is 'default administrative connection database';
-
-grant connect, create, temporary on database club_carrier to bartoszptaszynski;
-
-grant connect, create, temporary on database testlogin to bartoszptaszynski;
-
-grant connect, create, temporary on database logindb to bartoszptaszynski;
-
 create table clubs
 (
-    id        Long        not null
+    id        bigint                                             not null
         constraint "CLUBS_pkey"
             primary key,
-    name      varchar(30) not null,
-    rating    integer     not null,
-    value     integer     not null,
-    funds     integer     not null,
-    player_id Long        not null
+    name      varchar(30)                                      not null,
+    rating    integer                                          not null,
+    value     integer                                          not null,
+    funds     integer                                          not null,
+    player_id bigint                                             not null
         constraint "CLUBS_player_id_key"
-            unique
+            unique,
+    formation varchar(15) default '1-4-3-3'::character varying not null,
+    crest     varchar(15)                                      not null
 );
 
 alter table clubs
@@ -27,7 +19,7 @@ alter table clubs
 
 create table footballers
 (
-    id      Long        not null
+    id      bigint        not null
         constraint "FOOTBALLERS_pkey"
             primary key,
     name    varchar(30) not null,
@@ -41,33 +33,34 @@ alter table footballers
 
 create table club_footballers
 (
-    id            Long not null
+    id            bigint not null
         constraint "CLUB_FOOTBALLERS_pkey"
             primary key,
-    club_id       Long not null
+    club_id       bigint not null
         constraint "Club-Footballer_Club_FK"
             references clubs,
-    footballer_id Long not null
+    footballer_id bigint not null
         constraint "Club-Footballer_Footballer_FK"
-            references footballers
+            references footballers,
+    position varchar(15) not null
 );
 
 alter table club_footballers
-    owner to bartoszptaszynski;
+    owner to postgres;
 
 create table matches
 (
-    id             Long    not null
+    id             bigint    not null
         constraint "MATCHES_pkey"
             primary key,
-    hostteamscore  integer not null,
-    guestteamscore integer not null,
-    hostclub_id    Long    not null
+    host_team_score  integer not null,
+    guest_team_score integer not null,
+    host_club_id    bigint    not null
         constraint "MATCHES_hostclub_id_fkey"
             references clubs
         constraint match_club_fk
             references clubs,
-    guestclub_id   Long    not null
+    guest_club_id   bigint    not null
         constraint "MATCHES_guestclub_id_fkey"
             references clubs
         constraint match_club_fkv1
@@ -79,13 +72,13 @@ alter table matches
 
 create table players
 (
-    id       Long         not null
+    id       bigint         not null
         constraint "PLAYERS_pkey"
             primary key,
     email    varchar(50)  not null,
     password varchar(200) not null,
     username varchar(25)  not null,
-    club_id  Long
+    club_id  bigint
         constraint "PLAYERS_club_id_fkey"
             references clubs
         constraint club_fk
@@ -101,12 +94,12 @@ alter table clubs
 
 create table player_friends
 (
-    player_id_1 Long not null
+    player_id_1 bigint not null
         constraint "PLAYER_FRIENDS_player_id_1_fkey"
             references players
         constraint player_friend_player_fk
             references players,
-    player_id_2 Long not null
+    player_id_2 bigint not null
         constraint "PLAYER_FRIENDS_player_id_2_fkey"
             references players
         constraint player_friend_player_fkv2
@@ -120,10 +113,10 @@ alter table player_friends
 
 create table positions
 (
-    id             Long        not null
+    id             bigint        not null
         constraint "POSITIONS_pkey"
             primary key,
-    nameofposition varchar(30) not null,
+    name_of_position varchar(30) not null,
     shortcut       varchar(3)  not null
 );
 
@@ -132,10 +125,10 @@ alter table positions
 
 create table footballer_positions
 (
-    footballer_id Long not null
+    footballer_id bigint not null
         constraint "Footballer_FK"
             references footballers,
-    position_id   Long not null
+    position_id   bigint not null
         constraint "Position_FK"
             references positions,
     constraint "FOOTBALLER_POSITIONS_pkey"
@@ -145,4 +138,35 @@ create table footballer_positions
 alter table footballer_positions
     owner to bartoszptaszynski;
 
+
+
+CREATE SEQUENCE player_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+
+ALTER TABLE players
+    alter COLUMN id  set  DEFAULT nextval('player_seq')  ;
+
+
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE player_seq TO bartoszptaszynski;
+
+
+CREATE SEQUENCE club_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE;
+
+
+
+ALTER TABLE clubs
+    alter COLUMN id  set  DEFAULT nextval('club_seq')  ;
+
+
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE club_seq TO bartoszptaszynski;
 

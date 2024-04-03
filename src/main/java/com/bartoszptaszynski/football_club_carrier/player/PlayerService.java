@@ -59,7 +59,7 @@ public class PlayerService {
                     .id(player.getId())
                     .username(player.getUsername())
                     .email(player.getEmail())
-                    .club_id(player.getClub() == null?null:player.getClub().getId())
+                    .clubId(player.getClub() == null?null:player.getClub().getId())
                     .build();
             return new ResponseEntity<>(playerInfo,HttpStatus.ACCEPTED);
         }catch (UserNotFoundException e) {

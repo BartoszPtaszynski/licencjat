@@ -15,5 +15,5 @@ public class PlayerInfo {
     private Long id;
     private String username;
     private String email;
-    private Long club_id;
+    private Long clubId;
 }
