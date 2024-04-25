@@ -1,35 +1,67 @@
-<div>
-    <h1>Hi Welcome in our app</h1>
-     <h3>Sign up Here</h3>
-     <div *ngIf="errorSignUp.status">{{errorSignUp.message}}</div>
-      <form  (ngSubmit)="onSubmit()">
+<div class="container">
+  <div class="content">
+    <h1>Hej, Witaj w aplikacji!</h1>
+    <h3>Zarejestruj się:</h3>
+    <div *ngIf="errorSignUp.status">{{ errorSignUp.message }}</div>
+    <form (ngSubmit)="onSubmit()">
+      <div>
         <div>
-          <div>
-          <label for="username">Username</label>
-          <input id="username" name="username" [(ngModel)]="registrationReq.username"  type="text" required>
-          </div>
-
-          <div>
-            <label for="email">Email</label>
-            <input id="email" name="email" [(ngModel)]="registrationReq.email"  type="email"  required>
-            </div>
-
-          <div>
-          <label for="password">password</label>
-          <input id="password" name="password" [(ngModel)]="registrationReq.password"  type="password"  required>
-          </div>
-          <div>
-            <label for="password"> repeat password</label>
-            <input id="password" name="password" [(ngModel)]="registrationReq.passwordRepeat"  type="password"  required>
-            </div>
-
-            <div *ngIf="! passwordIdentical()">
-              <label>hasła nie są identyczne!</label>
-            </div>
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              name="username"
+              [(ngModel)]="registrationReq.username"
+              required
+            />
+          </mat-form-field>
         </div>
-        <button [disabled]="! passwordIdentical()">Submit</button>
-        
-      </form>
-      <span>Don't have an account?
-        <a href="/">signUp</a></span>
+
+        <div>
+          <mat-form-field>
+            <mat-label>Enter your email</mat-label>
+            <input
+              matInput
+              name="email"
+              placeholder="pat@example.com"
+              [(ngModel)]="registrationReq.email"
+              required
+            />
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <mat-label>password</mat-label>
+            <input
+              matInput
+              type="password"
+              [(ngModel)]="registrationReq.password"
+              name="password"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div *ngIf="!passwordIdentical()">
+          <mat-error>hasła nie są identyczne!</mat-error>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>repeat password</mat-label>
+            <input
+              matInput
+              name="password"
+              type="password"
+              [(ngModel)]="registrationReq.passwordRepeat"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <button mat-raised-button color="save" [disabled]="!passwordIdentical()">
+        ZAREJESTRUJ
+      </button>
+    </form>
+    <span>Masz już konto? <a href="/login">zaloguj się</a></span>
   </div>
+</div>

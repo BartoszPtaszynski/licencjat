@@ -1,22 +1,41 @@
-<div>
-    <h1>Hi Welcome Back</h1>
-     <h3>Login Here</h3>
-     <div *ngIf="loginError">Nie poprawny login lub hasło</div>
-      <form  (ngSubmit)="onSubmit()">
-        <div>
-          <div>
-          <label for="username">Username</label>
-          <input id="username" name="username" [(ngModel)]="loginCommand.username"  type="text">
-          </div>
+<div class="container">
+  <div class="content">
+    <h1>Witamy z powrotem!</h1>
+    <h3>Zaloguj się:</h3>
 
-          <div>
-          <label for="password">password</label>
-          <input id="password" name="password" [(ngModel)]="loginCommand.password"  type="password">
-          </div>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <div *ngIf="loginError">
+          <mat-error>Nie poprawny login lub hasło</mat-error>
         </div>
-        <button>Submit</button>
-        
-      </form>
-      <span>Don't have an account?
-        <a href="/register">signUp</a></span>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            name="username"
+            [(ngModel)]="loginCommand.username"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Hasło</mat-label>
+          <input
+            matInput
+            type="password"
+            [(ngModel)]="loginCommand.password"
+            name="password"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="save">ZALOGUJ</button>
+    </form>
+    <span
+      >Nie masz jeszcze konta? <a href="/register">zarejestruj się!</a></span
+    >
   </div>
+</div>

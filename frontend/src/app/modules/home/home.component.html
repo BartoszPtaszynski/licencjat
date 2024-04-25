@@ -1,6 +1,52 @@
-<p>home works!</p>
+<div class="home">
+  <img id="logo" src="../../../assets/logo.png" />
+  <ul class="navbar-nav">
+    <span *ngIf="!isAuthenticated()">
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/login">
+          LOGIN
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/register">
+          REJESTRACJA
+        </button>
+      </li>
+    </span>
 
-<div *ngIf="authService.isAuthenticated()">
-    <h1>hello {{ loginplayer?.username }}</h1>
+    <span *ngIf="isAuthenticated()">
+      <li *ngIf="player?.clubId" class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="#">
+          TWÓJ KLUB
+        </button>
+      </li>
+      <li *ngIf="!player?.clubId" class="nav-item">
+        <button mat-raised-button color="nav-button" (click)="openDialog()">
+          UTWÓRZ KLUB
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="#">
+          ZNAJOMI
+        </button>
+      </li>
+    </span>
+
+    <li class="nav-item">
+      <button mat-raised-button color="nav-button" routerLink="#">
+        O APLIKACJI
+      </button>
+    </li>
+    <span *ngIf="isAuthenticated()">
+      <li class="nav-item">
+        <button
+          mat-raised-button
+          color="nav-button"
+          (click)="this.authService.logout()"
+        >
+          WYLOGUJ
+        </button>
+      </li>
+    </span>
+  </ul>
 </div>
-<app-navbar></app-navbar>

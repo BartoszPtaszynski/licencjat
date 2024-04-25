@@ -1,7 +1,13 @@
 package com.bartoszptaszynski.football_club_carrier.player;
 
 
+import com.bartoszptaszynski.football_club_carrier.player.command.PlayerLoginCommand;
+import com.bartoszptaszynski.football_club_carrier.player.command.PlayerRegistrationCommand;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserExistsException;
 import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserNotFoundException;
+import com.bartoszptaszynski.football_club_carrier.player.model.entity.Player;
+import com.bartoszptaszynski.football_club_carrier.player.model.PlayerInfo;
+import com.bartoszptaszynski.football_club_carrier.player.repository.PlayerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,18 +30,22 @@ public class PlayerService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<?> register(PlayerRegistrationCommand command)
-    {
+    public ResponseEntity<?> register(PlayerRegistrationCommand command) throws UserExistsException {
         if(playerRepository.existsByUsername(command.getUsername())) {
-            return new ResponseEntity<>("user not found", HttpStatus.BAD_REQUEST);
+            throw new UserExistsException("username");
         }
+
+        if(playerRepository.existsByEmail(command.getEmail())) {
+            throw new UserExistsException("email");
+        }
+
         Player player = new Player(
                 command.getEmail(),command.getUsername(),passwordEncoder.encode(command.getPassword())
         );
+
         playerRepository.save(player);
 
-
-        return new ResponseEntity<>(player.getId(),HttpStatus.CREATED);
+        return new ResponseEntity<Long>(player.getId(),HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> login(PlayerLoginCommand command) {
@@ -59,7 +69,7 @@ public class PlayerService {
                     .id(player.getId())
                     .username(player.getUsername())
                     .email(player.getEmail())
-                    .club_id(player.getClub() == null?null:player.getClub().getId())
+                    .clubId(player.getClub() == null?null:player.getClub().getId())
                     .build();
             return new ResponseEntity<>(playerInfo,HttpStatus.ACCEPTED);
         }catch (UserNotFoundException e) {
