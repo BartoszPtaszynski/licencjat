@@ -1,3 +1,32 @@
-body{
-    margin: 0px;
+::ng-deep button.mat-mdc-raised-button.mat-save {
+  color: white;
+  background-color: #4e9a33;
+  border-radius: 25px;
+  width: 205px; /* Szerokość przycisku */
+  height: 50px;
+  margin-bottom: 10px;
+  font-size: medium;
+}
+
+::ng-deep button.mat-mdc-raised-button.mat-nav-button {
+  color: white;
+  background-color: #2176ae;
+  background: radial-gradient(#2176ae, rgb(50, 30, 136));
+  border-radius: 25px;
+
+  width: 300px; /* Szerokość przycisku */
+  height: 100px;
+  font-size: 30px;
+}
+
+::ng-deep body {
+  margin: 0;
+  padding: 0;
+  background-image: url(/assets/background.png);
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow-y: hidden;
 }
