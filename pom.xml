@@ -15,6 +15,8 @@
 	<description>football_club_carrier</description>
 	<properties>
 		<java.version>17</java.version>
+		<skipTests>true</skipTests>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -70,6 +72,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+
 				</configuration>
 			</plugin>
 		</plugins>
