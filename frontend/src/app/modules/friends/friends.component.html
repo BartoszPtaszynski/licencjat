@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="content">
+    <button class="left-button" mat-raised-button color="cancel" routerLink="">
+      POWRÓT
+    </button>
+    <button
+      class="right-button"
+      mat-raised-button
+      color="nav-button"
+      (click)="openDialog()"
+    >
+      DODAJ ZNAJOMEGO
+    </button>
+    <h1 class="heading">ZNAJOMI</h1>
+    <!-- Tutaj umieszczaj treść, jeśli jest potrzebna -->
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Nazwa użytkownika</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.username }}
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="nazwaKlubu">
+        <th mat-header-cell *matHeaderCellDef>Nazwa klubu</th>
+        <td mat-cell *matCellDef="let element">{{ element.nazwaKlubu }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="ostatnieWyniki">
+        <th mat-header-cell *matHeaderCellDef>Ostatnie wyniki</th>
+        <td mat-cell *matCellDef="let element">{{ element.ostatnieWyniki }}</td>
+      </ng-container>
+      <ng-container matColumnDef="liga">
+        <th mat-header-cell *matHeaderCellDef>Liga</th>
+        <td mat-cell *matCellDef="let element">{{ element.liga }}</td>
+      </ng-container>
+      <ng-container matColumnDef="ratingSkladu">
+        <th mat-header-cell *matHeaderCellDef>Rating składu</th>
+        <td mat-cell *matCellDef="let element">{{ element.ratingSkladu }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

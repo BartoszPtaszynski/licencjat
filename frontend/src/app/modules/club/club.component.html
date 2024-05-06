@@ -1,0 +1,57 @@
+<div class="box">
+  <div class="menu">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/squad">
+          SKŁAD
+        </button>
+      </li>
+
+      <li class="nav-item">
+        <button
+          mat-raised-button
+          color="nav-button"
+          routerLink="/transferMarket"
+        >
+          RYNEK TRANSFEROWY
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/match">
+          ZAGRAJ MECZ
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/results">
+          TWOJE WYNIKI
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/friends">
+          ZNAJOMI
+        </button>
+      </li>
+      <li class="nav-item">
+        <button mat-raised-button color="nav-button" routerLink="/aboutApp">
+          O APLIKACJI
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          mat-raised-button
+          color="nav-button"
+          (click)="this.authService.logout()"
+        >
+          WYLOGUJ
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="info">
+    <div class="content-up">
+      <h1 class="heading">KLUB: TESTOWA NAZWA</h1>
+    </div>
+
+    <div class="content">informacje o klubie liga itp</div>
+  </div>
+</div>

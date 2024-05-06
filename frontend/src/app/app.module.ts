@@ -30,6 +30,21 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { FriendsComponent } from './modules/friends/friends.component';
+import { AddFriendModalComponent } from './modules/friends/add-friend-modal/add-friend-modal.component';
+import { SquadComponent } from './modules/squad/squad.component';
+import { TransferMarketComponent } from './modules/transfer-market/transfer-market.component';
+import { MatCardModule } from '@angular/material/card';
+import { FootballerDetailsModalComponent } from './modules/squad/footballer-details-modal/footballer-details-modal.component';
+import { ClubComponent } from './modules/club/club.component';
+import { MatchComponent } from './modules/match/match.component';
+import { ResultsComponent } from './modules/results/results.component';
+import { ChangeFootballerModalComponent } from './modules/squad/change-footballer-modal/change-footballer-modal.component';
+import { MatTableModule } from '@angular/material/table';
+import { AboutAppComponent } from './modules/about-app/about-app.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +52,16 @@ import {
     LoginComponent,
     RegistrationComponent,
     CreateClubModalComponent,
+    FriendsComponent,
+    AddFriendModalComponent,
+    SquadComponent,
+    TransferMarketComponent,
+    FootballerDetailsModalComponent,
+    ClubComponent,
+    MatchComponent,
+    ResultsComponent,
+    ChangeFootballerModalComponent,
+    AboutAppComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +80,10 @@ import {
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatCardModule,
+    MatTableModule,
+    MatGridListModule,
+    MatPaginatorModule,
   ],
   providers: [
     provideClientHydration(),

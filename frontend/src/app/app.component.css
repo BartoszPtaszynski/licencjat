@@ -17,6 +17,7 @@
   width: 300px; /* Szerokość przycisku */
   height: 100px;
   font-size: 30px;
+  line-height: 1.5;
 }
 
 ::ng-deep body {
@@ -29,4 +30,15 @@
   background-repeat: no-repeat;
   background-position: center;
   overflow-y: hidden;
+
+  resize: none;
+}
+::ng-deep button.mat-mdc-raised-button.mat-cancel {
+  color: white;
+  background-color: #9e2121;
+  border-radius: 25px;
+  width: 205px; /* Szerokość przycisku */
+  height: 50px;
+  margin-bottom: 10px;
+  font-size: medium;
 }

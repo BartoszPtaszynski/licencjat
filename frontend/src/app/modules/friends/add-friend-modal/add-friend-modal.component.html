@@ -1,0 +1,57 @@
+<div class="content">
+  <h2 mat-dialog-title>Dodaj nowego gracza jako znajomego!</h2>
+  <mat-dialog-content>
+    <br />
+    <mat-form-field>
+      <mat-label>wyszukiwanie po:</mat-label>
+      <mat-select required [(ngModel)]="selectedOption">
+        <mat-option value="username">nazwa użytkownika</mat-option>
+        <mat-option value="email">email użytkownika</mat-option>
+        <mat-option value="password">hasło</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ selectedOption }}</mat-label>
+      <input matInput required [(ngModel)]="pattern" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Nazwa użytkownika</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.username }}
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="nazwaKlubu">
+        <th mat-header-cell *matHeaderCellDef>Nazwa klubu</th>
+        <td mat-cell *matCellDef="let element">{{ element.nazwaKlubu }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [class.selected]="row === selectedRow"
+        (click)="selectRow(row)"
+      >
+        >
+      </tr>
+    </table>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="save" cdkFocusInitial>
+      dodaj znajomego
+    </button>
+  </mat-dialog-actions>
+</div>

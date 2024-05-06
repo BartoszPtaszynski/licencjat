@@ -5155,12 +5155,14 @@ export {
   hasModifierKey,
   coerceBooleanProperty,
   coerceNumberProperty,
+  _isNumberValue,
   coerceArray,
   coerceCssPixelValue,
   coerceElement,
   ObserversModule,
   addAriaReferencedId,
   removeAriaReferencedId,
+  AriaDescriber,
   ActiveDescendantKeyManager,
   InteractivityChecker,
   FocusTrapFactory,
@@ -5215,4 +5217,4 @@ export {
   MatRippleLoader,
   _MatInternalFormField
 };
-//# sourceMappingURL=chunk-CUH55N7A.js.map
+//# sourceMappingURL=chunk-AT5DC43K.js.map

@@ -1,0 +1,8 @@
+.custom-dialog {
+  background-color: #c90606; /* ustawienie koloru tła */
+  border-radius: 10px; /* zaokrąglenie rogów */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* cień */
+}
+tr.selected {
+  background-color: #ccc;
+}

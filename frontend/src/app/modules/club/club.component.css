@@ -1,0 +1,77 @@
+.navbar-nav {
+  list-style-type: none;
+  background-color: #f1ffe7;
+  border-radius: 20px; /* Zaokrąglenie rogów ramki */
+  padding: 45px;
+}
+
+.nav-item {
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+#logo {
+  width: 1000px;
+}
+
+.container {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.info {
+  width: 40%;
+
+  border-radius: 25px;
+  align-items: center;
+  position: relative;
+}
+
+.mat-mdc-raised-button.mat-nav-button {
+  color: white;
+  background-color: #2176ae;
+  background: radial-gradient(#2176ae, rgb(50, 30, 136));
+  border-radius: 25px;
+
+  width: 250px; /* Szerokość przycisku */
+  height: 70px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+.content {
+  background-color: #f1ffe7;
+  border-radius: 20px;
+  margin-top: 0;
+  width: 95%;
+  height: 75%;
+  margin-left: 5%;
+  margin-top: 5%;
+  display: flex; /* Dodanie flexboxa */
+  align-items: center; /* Wyśrodkowanie wertykalne */
+  justify-content: center;
+}
+.content-up {
+  display: flex; /* Dodanie flexboxa */
+  align-items: center; /* Wyśrodkowanie wertykalne */
+  justify-content: center;
+  background-color: #f1ffe7;
+  border-radius: 20px;
+  margin-top: 0;
+  margin-left: 5%;
+  width: 95%;
+  height: 20%;
+}
+
+.heading {
+  font-size: 40px;
+  align-items: center;
+}

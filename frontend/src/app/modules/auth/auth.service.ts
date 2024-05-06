@@ -75,7 +75,6 @@ export class AuthService implements CanActivate {
     localStorage.removeItem('loginID');
     console.log(this.isAuthenticated() + 'xD');
     this.router.navigate(['/']);
-    window.location.reload();
   }
 
   static getLoginId(): string | null {

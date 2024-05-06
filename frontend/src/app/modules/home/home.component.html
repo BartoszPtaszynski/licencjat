@@ -16,7 +16,7 @@
 
     <span *ngIf="isAuthenticated()">
       <li *ngIf="player?.clubId" class="nav-item">
-        <button mat-raised-button color="nav-button" routerLink="#">
+        <button mat-raised-button color="nav-button" routerLink="/club">
           TWÓJ KLUB
         </button>
       </li>
@@ -26,14 +26,14 @@
         </button>
       </li>
       <li class="nav-item">
-        <button mat-raised-button color="nav-button" routerLink="#">
+        <button mat-raised-button color="nav-button" routerLink="/friends">
           ZNAJOMI
         </button>
       </li>
     </span>
 
     <li class="nav-item">
-      <button mat-raised-button color="nav-button" routerLink="#">
+      <button mat-raised-button color="nav-button" routerLink="/aboutApp">
         O APLIKACJI
       </button>
     </li>
