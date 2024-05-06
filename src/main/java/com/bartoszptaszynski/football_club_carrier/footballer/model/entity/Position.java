@@ -1,9 +1,7 @@
 package com.bartoszptaszynski.football_club_carrier.footballer.model.entity;
 
 import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Footballer;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,6 +18,5 @@ public class Position {
     private Long id;
     private String nameOfPosition;
     private String shortcut;
-    @ManyToMany
-    Set<Footballer> footballers;
+
 }

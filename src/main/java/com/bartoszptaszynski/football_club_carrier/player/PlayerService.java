@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -30,7 +32,7 @@ public class PlayerService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<?> register(PlayerRegistrationCommand command) throws UserExistsException {
+    public Long register(PlayerRegistrationCommand command) throws UserExistsException {
         if(playerRepository.existsByUsername(command.getUsername())) {
             throw new UserExistsException("username");
         }
@@ -45,24 +47,21 @@ public class PlayerService {
 
         playerRepository.save(player);
 
-        return new ResponseEntity<Long>(player.getId(),HttpStatus.CREATED);
+        return player.getId();
     }
 
-    public ResponseEntity<String> login(PlayerLoginCommand command) {
-        try {
-            Player player = playerRepository.findPlayerByUsername(command.getUsername()).orElseThrow(()-> new UserNotFoundException("not found"));
-            if(passwordEncoder.matches(command.getPassword(),player.getPassword())) {
-                return new ResponseEntity<>(player.getId().toString(),HttpStatus.OK);
+    public Long login(PlayerLoginCommand command) {
 
+        Player player = playerRepository.findPlayerByUsername(command.getUsername()).orElseThrow(()-> new UserNotFoundException("not found"));
+        if(passwordEncoder.matches(command.getPassword(),player.getPassword())) {
+            return player.getId();
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+            throw new UserNotFoundException("password incorrect");
         }
-    } catch (UserNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-    }
+
 }
 
-    public ResponseEntity<?> findPlayerInfoById(String id) {
+    public ResponseEntity<?>  findPlayerInfoById(String id) {
         try {
             Player player = playerRepository.findPlayerById(Long.valueOf(id)).orElseThrow(()->new UserNotFoundException("player not found"));
             PlayerInfo playerInfo = PlayerInfo.builder()
@@ -77,4 +76,18 @@ public class PlayerService {
             return new ResponseEntity<>("ERROR",HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    public String addFriend(Long id1,Long id2) {
+        Player player1=playerRepository.findPlayerById(id1).orElseThrow( () -> new UserNotFoundException("user with id "+id1+" not found"));
+        Player player2=playerRepository.findPlayerById(id2).orElseThrow( () -> new UserNotFoundException("user with id "+id2+" not found"));
+
+        player1.addFriend(player2);
+        player2.addFriend(player1);
+
+        playerRepository.saveAll(List.of(player1,player2));
+        return player1.getPlayerFriends().toString();
+    }
+
+
 }

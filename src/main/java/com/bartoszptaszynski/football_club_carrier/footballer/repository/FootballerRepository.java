@@ -5,16 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface FootballerRepository extends JpaRepository<Footballer,Long> {
-//    @Query(value = "SELECT new Footballer(" +
-//            "footballer.id, " +
-//            "footballer.name, " +
-//            "footballer.surname, " +
-//            "footballer.rating, " +
-//            "footballer.value) " +
-//            "FROM Footballer footballer JOIN footballer.positionList position")
-//    List<Footballer> getFootballers();
+import java.util.List;
 
+public interface FootballerRepository extends JpaRepository<Footballer,Long> {
     @Query( "select footballer from footballers footballer JOIN footballer.footballerPositions positions " +
             "where footballer.rating <= 10 " +
             "and positions.shortcut = :position " +
@@ -23,4 +16,6 @@ public interface FootballerRepository extends JpaRepository<Footballer,Long> {
     )
     Footballer findByPosition(@Param("position") String position);
 
+    @Query("select footballer from footballers footballer order by footballer.rating desc ")
+    List<Footballer> findByFilters();
 }
