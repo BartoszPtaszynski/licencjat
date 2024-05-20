@@ -1,8 +1,7 @@
 package com.bartoszptaszynski.football_club_carrier.player.controller;
 
-import com.bartoszptaszynski.football_club_carrier.ErrorJsonResponse;
-import com.bartoszptaszynski.football_club_carrier.player.command.PlayerLoginCommand;
-import com.bartoszptaszynski.football_club_carrier.player.command.PlayerRegistrationCommand;
+import com.bartoszptaszynski.football_club_carrier.player.model.command.PlayerLoginCommand;
+import com.bartoszptaszynski.football_club_carrier.player.model.command.PlayerRegistrationCommand;
 import com.bartoszptaszynski.football_club_carrier.player.PlayerService;
 import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserExistsException;
 import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserNotFoundException;

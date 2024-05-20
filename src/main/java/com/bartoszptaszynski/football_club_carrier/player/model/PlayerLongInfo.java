@@ -1,2 +1,18 @@
-package com.bartoszptaszynski.football_club_carrier.player.model;public class PlayerLongInfo {
+package com.bartoszptaszynski.football_club_carrier.player.model;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PlayerLongInfo {
+    private Long id;
+    private String username;
+    private String email;
+    private String clubName;
 }

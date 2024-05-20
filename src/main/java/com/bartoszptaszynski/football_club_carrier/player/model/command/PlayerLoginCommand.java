@@ -1,4 +1,4 @@
-package com.bartoszptaszynski.football_club_carrier.player.command;
+package com.bartoszptaszynski.football_club_carrier.player.model.command;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

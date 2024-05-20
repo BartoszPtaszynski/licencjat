@@ -1,9 +1,15 @@
-package com.bartoszptaszynski.football_club_carrier.club.match;
+package com.bartoszptaszynski.football_club_carrier.club.model.entity;
 
 import com.bartoszptaszynski.football_club_carrier.club.model.entity.Club;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
+@Entity(name = "matches")
+@Getter
+@Setter
+@ToString
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
