@@ -4,38 +4,35 @@
     <br />
     <mat-form-field>
       <mat-label>wyszukiwanie po:</mat-label>
-      <mat-select required [(ngModel)]="selectedOption">
+      <mat-select required [(ngModel)]="searchType">
         <mat-option value="username">nazwa użytkownika</mat-option>
         <mat-option value="email">email użytkownika</mat-option>
-        <mat-option value="password">hasło</mat-option>
+        <mat-option value="clubName">nazwa klubu</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{ selectedOption }}</mat-label>
-      <input matInput required [(ngModel)]="pattern" />
+      <mat-label>{{ searchType }}</mat-label>
+      <input matInput required [(ngModel)]="pattern" (input)="getResults()" />
     </mat-form-field>
   </mat-dialog-content>
 
-  <div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!-- Name Column -->
+  <div style="height: 400px; overflow: auto">
+    <table mat-table [dataSource]="friendResults" class="mat-elevation-z8">
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef>Nazwa użytkownika</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.username }}
+          {{ element?.username }}
         </td>
       </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="nazwaKlubu">
+      <ng-container matColumnDef="clubName">
         <th mat-header-cell *matHeaderCellDef>Nazwa klubu</th>
-        <td mat-cell *matCellDef="let element">{{ element.nazwaKlubu }}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.clubName }}</td>
       </ng-container>
 
-      <!-- Symbol Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>email</th>
-        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.email }}</td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
@@ -50,7 +47,12 @@
   </div>
 
   <mat-dialog-actions>
-    <button mat-raised-button color="save" cdkFocusInitial>
+    <button
+      mat-raised-button
+      color="save"
+      (click)="addFriend()"
+      [disabled]="!selectedRow"
+    >
       dodaj znajomego
     </button>
   </mat-dialog-actions>

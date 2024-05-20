@@ -1,53 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AddFriendModalComponent } from './add-friend-modal/add-friend-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-
-export interface PeriodicElement {
-  username: string;
-  nazwaKlubu: string;
-  ostatnieWyniki: string;
-  position: number;
-  liga: number;
-  ratingSkladu: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    username: 'Jan',
-    nazwaKlubu: 'klub1',
-    ostatnieWyniki: 'W W P P P',
-    liga: 5,
-    ratingSkladu: 44,
-  },
-  {
-    position: 2,
-    username: 'testUser',
-    nazwaKlubu: 'klub 2',
-    ostatnieWyniki: 'W W W W W',
-    liga: 1,
-    ratingSkladu: 50,
-  },
-];
+import { FriendInfo } from './friends.query';
+import { FriendsService } from './friends.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
   styleUrl: './friends.component.css',
 })
-export class FriendsComponent {
-  constructor(public dialog: MatDialog) {}
+export class FriendsComponent implements OnInit {
+  friendsData: FriendInfo[];
+
+  constructor(
+    public dialog: MatDialog,
+    private friendsService: FriendsService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadFriends();
+  }
 
   displayedColumns: string[] = [
     'position',
     'username',
-    'nazwaKlubu',
-    'ostatnieWyniki',
-    'liga',
-    'ratingSkladu',
+    'clubName',
+    'results',
+    'league',
+    'clubRating',
   ];
-  dataSource = ELEMENT_DATA;
 
+  loadFriends() {
+    this.friendsService.getFriendsInfo().subscribe(
+      (result) => {
+        this.friendsData = result;
+      },
+      (error) => {}
+    );
+  }
   openDialog(): void {
     const dialogRef = this.dialog.open(AddFriendModalComponent, {
       panelClass: 'custom-dialog',
@@ -55,6 +46,12 @@ export class FriendsComponent {
     });
 
     dialogRef.afterClosed().subscribe(() => {
+      this.friendsService.getFriendsInfo().subscribe(
+        (result) => {
+          this.friendsData = result;
+        },
+        (error) => {}
+      );
       console.log('The dialog was closed');
     });
   }

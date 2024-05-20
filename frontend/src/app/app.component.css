@@ -7,6 +7,11 @@
   margin-bottom: 10px;
   font-size: medium;
 }
+::ng-deep button.mat-mdc-raised-button.mat-save:disabled {
+  color: white;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
 
 ::ng-deep button.mat-mdc-raised-button.mat-nav-button {
   color: white;

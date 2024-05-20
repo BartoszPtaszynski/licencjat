@@ -12,10 +12,12 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DialogData } from '../../home/home.component';
+import { FriendInfo, FriendResult } from './../friends.query';
 
 import { AuthService } from '../../auth/auth.service';
 import { Formation } from '../../club/club.query';
 import { ClubService } from '../../club/club.service';
+import { FriendsService } from '../friends.service';
 
 export interface PeriodicElement {
   username: string;
@@ -44,28 +46,37 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class AddFriendModalComponent {
   constructor(
     private _clubService: ClubService,
+    private _friendService: FriendsService,
     public dialogRef: MatDialogRef<AddFriendModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
-  displayedColumns: string[] = ['username', 'nazwaKlubu', 'email'];
-  dataSource = ELEMENT_DATA;
-  selectedOption: string = 'username';
-  pattern: string = '';
+  displayedColumns: string[] = ['username', 'clubName', 'email'];
+  friendResults: FriendResult[];
+  searchType: string = 'clubName';
+  pattern: string;
 
-  selectedRow: any;
+  selectedRow: FriendResult = null;
 
-  selectRow(row: any) {
+  selectRow(row: FriendResult) {
     this.selectedRow = row;
+    console.log(this.selectedRow);
   }
 
-  ngOnInit(): void {
-    this._clubService.getFormations().subscribe(
-      (result) => {},
-      (error) => {
-        alert('Unable to load formations');
-      }
-    );
+  getResults() {
+    this._friendService
+      .getFriendsResults(this.searchType, this.pattern)
+      .subscribe(
+        (result) => {
+          this.friendResults = result;
+        },
+        (error) => {}
+      );
+  }
+
+  addFriend() {
+    this._friendService.addFriend(this.selectedRow?.id);
+    this.dialogRef.close();
   }
 
   onNoClick(): void {

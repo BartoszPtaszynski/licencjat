@@ -12,19 +12,13 @@
       DODAJ ZNAJOMEGO
     </button>
     <h1 class="heading">ZNAJOMI</h1>
-    <!-- Tutaj umieszczaj treść, jeśli jest potrzebna -->
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-
-      <!-- Position Column -->
+    <table mat-table [dataSource]="friendsData" class="mat-elevation-z8">
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef>Nazwa użytkownika</th>
         <td mat-cell *matCellDef="let element">
@@ -32,24 +26,22 @@
         </td>
       </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="nazwaKlubu">
+      <ng-container matColumnDef="clubName">
         <th mat-header-cell *matHeaderCellDef>Nazwa klubu</th>
-        <td mat-cell *matCellDef="let element">{{ element.nazwaKlubu }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.clubName }}</td>
       </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="ostatnieWyniki">
+      <ng-container matColumnDef="results">
         <th mat-header-cell *matHeaderCellDef>Ostatnie wyniki</th>
-        <td mat-cell *matCellDef="let element">{{ element.ostatnieWyniki }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.results }}</td>
       </ng-container>
-      <ng-container matColumnDef="liga">
+      <ng-container matColumnDef="league">
         <th mat-header-cell *matHeaderCellDef>Liga</th>
-        <td mat-cell *matCellDef="let element">{{ element.liga }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.league }}</td>
       </ng-container>
-      <ng-container matColumnDef="ratingSkladu">
+      <ng-container matColumnDef="clubRating">
         <th mat-header-cell *matHeaderCellDef>Rating składu</th>
-        <td mat-cell *matCellDef="let element">{{ element.ratingSkladu }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.clubRating }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

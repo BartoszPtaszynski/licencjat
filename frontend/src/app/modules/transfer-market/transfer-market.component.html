@@ -8,13 +8,13 @@
     >
       POWRÓT
     </button>
-    <h1 class="heading">KLUB NAZWA - SKŁAD</h1>
+    <h1 class="heading">KLUB NAZWA - RYNEK TRANSFEROWY</h1>
     <div class="box">
       <div class="squad">
         <mat-grid-list cols="7">
           <mat-grid-tile
             *ngFor="
-              let footballer of footballers.slice(
+              let footballer of footballers?.slice(
                 currentPage * 28,
                 (currentPage + 1) * 28
               )
@@ -22,9 +22,11 @@
           >
             <mat-card class="footballer1" (click)="buyFootballer()">
               <mat-card-header>
-                <mat-card-title>{{
-                  footballer.name + " " + footballer.surname
-                }}</mat-card-title>
+                <mat-card-title
+                  ><b>{{
+                    footballer.name + " " + footballer.surname
+                  }}</b></mat-card-title
+                >
                 <mat-card-subtitle>{{ footballer.position }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
@@ -39,7 +41,7 @@
           </mat-grid-tile>
         </mat-grid-list>
         <mat-paginator
-          [length]="footballers.length"
+          [length]="footballers?.length"
           [pageSize]="28"
           (page)="onPageChange($event)"
         >
