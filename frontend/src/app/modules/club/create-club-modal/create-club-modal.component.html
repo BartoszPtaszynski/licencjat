@@ -2,35 +2,36 @@
   Create your club <b>{{ data.name }}</b
   >!
 </h2>
-<mat-dialog-content>
-  <p>Nazwa klubu:</p>
-  <mat-form-field>
-    <mat-label>nazwa</mat-label>
-    <input matInput required [(ngModel)]="clubReq.name" />
-  </mat-form-field>
-  <p>Wybierz herb:</p>
-  <mat-form-field>
-    <mat-label>herb</mat-label>
-    <mat-select required [(ngModel)]="clubReq.crest">
-      <mat-option value="herb1">herb1</mat-option>
-      <mat-option value="herb2">herb2</mat-option>
-      <mat-option value="herb3">herb3</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="content">
+  <mat-dialog-content>
+    <p>Nazwa klubu:</p>
+    <mat-form-field>
+      <mat-label>nazwa</mat-label>
+      <input matInput required [(ngModel)]="clubReq.name" />
+    </mat-form-field>
+    <p>Wybierz herb:</p>
+    <mat-form-field>
+      <mat-label>herb</mat-label>
+      <mat-select required [(ngModel)]="clubReq.crest">
+        <mat-option value="herb1">herb1</mat-option>
+        <mat-option value="herb2">herb2</mat-option>
+        <mat-option value="herb3">herb3</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <p>Wybierz wstępną formację:</p>
-  <mat-form-field>
-    <mat-label>formacja</mat-label>
-    <mat-select required [(ngModel)]="clubReq.formation">
-      <mat-option
-        *ngFor="let formation of formations"
-        [value]="formation.code"
-        >{{ formation.name }}</mat-option
-      >
-    </mat-select>
-  </mat-form-field>
-</mat-dialog-content>
-
+    <p>Wybierz wstępną formację:</p>
+    <mat-form-field>
+      <mat-label>formacja</mat-label>
+      <mat-select required [(ngModel)]="clubReq.formation">
+        <mat-option
+          *ngFor="let formation of formations"
+          [value]="formation.code"
+          >{{ formation.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+</div>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button (click)="createClub()" cdkFocusInitial>Utwórz klub</button>
