@@ -128,18 +128,18 @@ public class PlayerService {
     public List<PlayerLongInfo> findPlayersByPattern(Long id, String searchType,String pattern) {
 
         if(pattern.isEmpty()) return Collections.emptyList();
-        List<PlayerLongInfo> players = playerRepository.getPLayerByPattern(id,searchType,pattern)
+        List<PlayerLongInfo> players = playerRepository.getPlayerByPattern(id,searchType,pattern)
                 .stream().map(player ->
                         PlayerLongInfo.builder()
                                 .username(player.getUsername())
                                 .id(player.getId())
                                 .email(player.getEmail())
-                                .clubName(player.getClub()!=null?player.getClub().getName():null)
+                                .clubName(player.getClub()!=null?player.getClub().getName():"")
                                 .build()
                 ).toList();
 
+        log.info(String.valueOf(playerRepository.getPlayerByPattern(id,searchType,pattern).size()));
+
         return players;
     }
-
-
 }

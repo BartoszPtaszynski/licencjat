@@ -1,7 +1,7 @@
-package com.bartoszptaszynski.football_club_carrier.player.exceptions;
+package com.bartoszptaszynski.football_club_carrier.club.Exception;
 
-public class UserNotFoundException extends RuntimeException{
-    public UserNotFoundException(String message) {
-        super("User "+message + "not found");
+public class ClubNotFoundException extends RuntimeException{
+    public ClubNotFoundException(String message) {
+        super("club with "+message + "not found");
     }
 }

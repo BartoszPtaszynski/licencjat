@@ -28,20 +28,27 @@ public class Footballer {
            inverseJoinColumns = @JoinColumn(name = "position_id"))
     private List<Position> footballerPositions;
 
+    public Footballer(Long id, String name, String surname, int rating, int value, List<Position> footballerPositions) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.rating = rating;
+        this.value = value;
+        this.footballerPositions = footballerPositions;
+    }
 
     @Override
     public String toString() {
          StringBuilder s =new StringBuilder();
-                 s.append("Footballer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", rating=" + rating +
-                ", value=" + value +"positions: ");
+                 s.append("Footballer" +
+                " name: " + name + '\'' +
+                ", surname: " + surname + '\'' +
+                ", rating: " + rating + '\'' +
+                ", value: " + value);
 
-        String s1 = footballerPositions.stream().map(Position::getNameOfPosition).collect(Collectors.joining(" "));
+        //String s1 = footballerPositions.stream().map(Position::getNameOfPosition).collect(Collectors.joining(" "));
 
-         return s.toString()+s1;
+         return s.toString();
     }
 }
 

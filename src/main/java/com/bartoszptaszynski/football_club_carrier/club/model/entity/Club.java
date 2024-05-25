@@ -1,6 +1,7 @@
 package com.bartoszptaszynski.football_club_carrier.club.model.entity;
 
 
+
 import com.bartoszptaszynski.football_club_carrier.club.model.FormationEnum;
 import com.bartoszptaszynski.football_club_carrier.player.model.entity.Player;
 import jakarta.persistence.*;
@@ -24,7 +25,7 @@ public class Club {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int rating;
+
     private int value;
     private int funds;
 

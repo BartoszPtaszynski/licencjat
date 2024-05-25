@@ -22,6 +22,7 @@ public interface PlayerRepository extends JpaRepository<Player,Long> {
 
 
 
+
 //    @Query("select new com.bartoszptaszynski.football_club_carrier.player.model.FriendInfo(" +
 //            "friend.id," +
 //            "friend.username," +
@@ -36,15 +37,16 @@ public interface PlayerRepository extends JpaRepository<Player,Long> {
     List<Player> getPlayerFriends(@Param("id") Long id);
 
 
-    @Query("select player from players  player where " +
+    @Query("select player from players player " +
+            "left join player.club club " +
+            "where " +
             "case " +
             "when :searchType = 'username' then lower(player.username) " +
             "when :searchType = 'email' then lower(player.email) " +
-            "when :searchType = 'clubName' then lower(player.club.name) " +
-            "end " +
-            "like CONCAT('%', lower(:pattern), '%') and " +
-            "player.id<>:id")
-    List<Player> getPLayerByPattern(@Param("id")  Long id,@Param("searchType") String searchType, @Param("pattern") String pattern);
+            "when :searchType = 'clubName' then lower(club.name) " +
+            "end like CONCAT('%', lower(:pattern), '%') and " +
+            "(player.id<>:id)")
+    List<Player> getPlayerByPattern(@Param("id") Long id, @Param("searchType") String searchType, @Param("pattern") String pattern);
 
 
 }
