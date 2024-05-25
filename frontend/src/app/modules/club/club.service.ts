@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ClubCommand } from './club.command';
 import { AuthService } from '../auth/auth.service';
 import { Observable, map } from 'rxjs';
-import { Formation } from './club.query';
+import { ClubInformation, Formation } from './club.query';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +32,13 @@ export class ClubService {
       });
   }
 
-  //   getFormations(): Observable<Formation[]> {
-  //     return this.http.get<Formation[]>(this.apiUrl + '/formations').pipe(map(response => response.data));
-  // }
   getFormations(): Observable<Formation[]> {
     return this.http.get<Formation[]>(this.apiUrl + '/formations');
+  }
+
+  getClubInformation(): Observable<ClubInformation> {
+    return this.http.get<ClubInformation>(
+      this.apiUrl + `/club/info?idOfUser=${AuthService.getLoginId()}`
+    );
   }
 }

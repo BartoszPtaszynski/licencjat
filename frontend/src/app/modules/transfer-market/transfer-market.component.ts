@@ -32,8 +32,11 @@ export class TransferMarketComponent implements OnInit {
     console.log(this.currentPage);
   }
 
-  buyFootballer() {
-    alert('Kupiłeś nowego zawodnika!, Został wysłany na ławkę rezerwowych.');
+  buyFootballer(id: number) {
+    this.footballerService.buyFootballer(id).subscribe(
+      (result) => alert(result),
+      (error) => alert(error.error)
+    );
   }
   ngOnInit(): void {
     this.loadFootballers();

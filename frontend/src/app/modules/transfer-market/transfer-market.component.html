@@ -20,7 +20,10 @@
               )
             "
           >
-            <mat-card class="footballer1" (click)="buyFootballer()">
+            <mat-card
+              class="footballer1"
+              (click)="buyFootballer(footballer?.id)"
+            >
               <mat-card-header>
                 <mat-card-title
                   ><b>{{

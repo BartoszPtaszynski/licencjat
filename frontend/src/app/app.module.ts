@@ -38,7 +38,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FootballerDetailsModalComponent } from './modules/squad/footballer-details-modal/footballer-details-modal.component';
 import { ClubComponent } from './modules/club/club.component';
 import { MatchComponent } from './modules/match/match.component';
-import { ResultsComponent } from './modules/results/results.component';
+import { ResultsComponent } from './modules/club/results/results.component';
 import { ChangeFootballerModalComponent } from './modules/squad/change-footballer-modal/change-footballer-modal.component';
 import { MatTableModule } from '@angular/material/table';
 import { AboutAppComponent } from './modules/about-app/about-app.component';

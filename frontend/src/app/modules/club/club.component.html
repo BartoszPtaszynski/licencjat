@@ -49,9 +49,25 @@
   </div>
   <div class="info">
     <div class="content-up">
-      <h1 class="heading">KLUB: TESTOWA NAZWA</h1>
+      <h1 class="heading">
+        KLUB: <b>{{ clubInfo?.name }}</b>
+      </h1>
+      <h1>{{ clubInfo?.crest }}</h1>
     </div>
 
-    <div class="content">informacje o klubie liga itp</div>
+    <div class="content">
+      <h2>
+        liga: <b>{{ clubInfo?.league }}</b>
+      </h2>
+      <h2>
+        ilość punktów: <b>{{ clubInfo?.value }}</b>
+      </h2>
+      <h2>
+        ocena ogólna składu: <b>{{ clubInfo?.rating }}</b>
+      </h2>
+      <h2>
+        saldo: <b>{{ clubInfo?.funds }}$</b>
+      </h2>
+    </div>
   </div>
 </div>

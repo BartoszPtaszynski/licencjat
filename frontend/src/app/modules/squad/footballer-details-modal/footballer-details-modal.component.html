@@ -7,16 +7,27 @@
         <div class="striker">
           <mat-card class="footballer1">
             <mat-card-header>
-              <mat-card-title>Cristiano Ronaldo</mat-card-title>
-              <mat-card-subtitle><b>NAPASTNIK</b></mat-card-subtitle>
+              <mat-card-title
+                >{{ data?.footballer.name }}
+                {{ data?.footballer?.surname }}</mat-card-title
+              >
+              <mat-card-subtitle
+                ><b>{{
+                  data?.footballer?.activePosition.nameOfPosition
+                }}</b></mat-card-subtitle
+              >
               <mat-card-subtitle>
-                inne pozycje:<br /><b>LN, LS, LP</b>
+                dostępne pozycje:<br /><b>{{
+                  getFootballerPositionsString()
+                }}</b>
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               rating:
-              <h2 style="font-size: 30px">50</h2>
-              <mat-card-subtitle>cena:<b>50000</b></mat-card-subtitle>
+              <h2 style="font-size: 30px">{{ data?.footballer.rating }}</h2>
+              <mat-card-subtitle
+                >cena:<b>{{ data?.footballer.value }}</b></mat-card-subtitle
+              >
             </mat-card-content>
           </mat-card>
         </div>
@@ -24,7 +35,9 @@
     </div>
   </div>
   <div class="buttons">
-    <button mat-raised-button color="nav-button">SPRZEDAJ</button>
+    <button mat-raised-button color="nav-button" (click)="sellFootballer()">
+      SPRZEDAJ
+    </button>
     <button mat-raised-button color="nav-button">ZMIEŃ POZYCJĘ</button>
   </div>
 </div>

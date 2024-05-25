@@ -47,3 +47,9 @@
   margin-bottom: 10px;
   font-size: medium;
 }
+::ng-deep.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ustawia wysokość kontenera na całą wysokość widocznego obszaru */
+}
