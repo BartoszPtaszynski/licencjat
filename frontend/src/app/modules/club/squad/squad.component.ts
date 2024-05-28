@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ChangeFootballerModalComponent } from './change-footballer-modal/change-footballer-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FootballerDetailsModalComponent } from './footballer-details-modal/footballer-details-modal.component';
-import { FootballerClub, Position } from './squad.query';
-import { SquadService } from './squad.service';
+
 import { error, time } from 'console';
 import { timer } from 'rxjs';
+import { FootballerClub, Position } from '../club.query';
+import { ClubService } from '../club.service';
 
 @Component({
   selector: 'app-squad',
@@ -13,7 +14,7 @@ import { timer } from 'rxjs';
   styleUrl: './squad.component.css',
 })
 export class SquadComponent implements OnInit {
-  constructor(public dialog: MatDialog, private service: SquadService) {}
+  constructor(public dialog: MatDialog, private clubService: ClubService) {}
   loadingData: boolean = true;
 
   footballers: FootballerClub[];
@@ -43,12 +44,13 @@ export class SquadComponent implements OnInit {
   }
 
   loadFootballers() {
-    this.service.getClubFootballers().subscribe(
+    this.clubService.getClubFootballers().subscribe(
       (result) => {
         // timer(3000).subscribe(() => {
         //   // Tutaj możesz umieścić kod, który ma zostać wykonany po opóźnieniu
 
         this.footballers = result;
+        console.log(result);
         this.loadingData = false;
         // });
       },

@@ -1,0 +1,56 @@
+<div class="content">
+  <h2>Wybierz zawodnika do zmiany:</h2>
+
+  <div *ngIf="footballers?.length > 0">
+    <div class="listOfFootballers">
+      <mat-card
+        class="footballer"
+        *ngFor="let footballer of footballers"
+        (click)="selectFootballer(footballer)"
+        [ngClass]="{ selected: selectedFootballer === footballer }"
+      >
+        <mat-card-header>
+          <mat-card-title
+            >{{ footballer?.name }} {{ footballer?.surname }}</mat-card-title
+          >
+          <mat-card-subtitle>{{
+            footballer.activePosition.nameOfPosition
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          ocena:
+          <h2 style="font-size: 30px">{{ footballer?.rating }}</h2>
+          cena:
+          <h3 style="font-size: 20px">{{ footballer?.value }}</h3>
+        </mat-card-content>
+        <mat-card-actions> </mat-card-actions>
+      </mat-card>
+    </div>
+    <button
+      mat-raised-button
+      color="save"
+      [disabled]="!selectedFootballer"
+      (click)="changeFootballer()"
+    >
+      Zamień zawodnika
+    </button>
+  </div>
+  <div *ngIf="footballers?.length == 0">
+    <h3>
+      Brak zawodników do zamiany. Przejdź do rynku transferowego aby zakupić
+      odpowiedniego zawodnika!
+    </h3>
+    <button
+      mat-raised-button
+      color="save"
+      (click)="dialogRef.close()"
+      routerLink="/transferMarket"
+    >
+      Rynek transferowy
+    </button>
+  </div>
+  <br />
+  <button mat-raised-button color="cancel" (click)="dialogRef.close()">
+    Anuluj
+  </button>
+</div>

@@ -7,10 +7,10 @@ import { RegistrationComponent } from './modules/auth/registration/registration.
 import { ClubComponent } from './modules/club/club.component';
 import { FriendsComponent } from './modules/friends/friends.component';
 import { AboutAppComponent } from './modules/about-app/about-app.component';
-import { MatchComponent } from './modules/match/match.component';
+import { MatchComponent } from './modules/club/match/match.component';
 import { ResultsComponent } from './modules/club/results/results.component';
-import { SquadComponent } from './modules/squad/squad.component';
-import { TransferMarketComponent } from './modules/transfer-market/transfer-market.component';
+import { SquadComponent } from './modules/club/squad/squad.component';
+import { TransferMarketComponent } from './modules/club/transfer-market/transfer-market.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

@@ -32,18 +32,19 @@ import {
 } from '@angular/material/dialog';
 import { FriendsComponent } from './modules/friends/friends.component';
 import { AddFriendModalComponent } from './modules/friends/add-friend-modal/add-friend-modal.component';
-import { SquadComponent } from './modules/squad/squad.component';
-import { TransferMarketComponent } from './modules/transfer-market/transfer-market.component';
+import { SquadComponent } from './modules/club/squad/squad.component';
+import { TransferMarketComponent } from './modules/club/transfer-market/transfer-market.component';
 import { MatCardModule } from '@angular/material/card';
-import { FootballerDetailsModalComponent } from './modules/squad/footballer-details-modal/footballer-details-modal.component';
+import { FootballerDetailsModalComponent } from './modules/club/squad/footballer-details-modal/footballer-details-modal.component';
 import { ClubComponent } from './modules/club/club.component';
-import { MatchComponent } from './modules/match/match.component';
+import { MatchComponent } from './modules/club/match/match.component';
 import { ResultsComponent } from './modules/club/results/results.component';
-import { ChangeFootballerModalComponent } from './modules/squad/change-footballer-modal/change-footballer-modal.component';
+import { ChangeFootballerModalComponent } from './modules/club/squad/change-footballer-modal/change-footballer-modal.component';
 import { MatTableModule } from '@angular/material/table';
 import { AboutAppComponent } from './modules/about-app/about-app.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FootballerChangePositionModalComponent } from './modules/club/squad/footballer-change-position-modal/footballer-change-position-modal.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ResultsComponent,
     ChangeFootballerModalComponent,
     AboutAppComponent,
+    FootballerChangePositionModalComponent,
   ],
   imports: [
     BrowserModule,

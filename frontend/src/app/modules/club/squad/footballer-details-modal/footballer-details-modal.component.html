@@ -7,6 +7,7 @@
         <div class="striker">
           <mat-card class="footballer1">
             <mat-card-header>
+              x
               <mat-card-title
                 >{{ data?.footballer.name }}
                 {{ data?.footballer?.surname }}</mat-card-title
@@ -35,9 +36,20 @@
     </div>
   </div>
   <div class="buttons">
-    <button mat-raised-button color="nav-button" (click)="sellFootballer()">
+    <button
+      *ngIf="data.footballer.activePosition.shortcut === 'R'"
+      mat-raised-button
+      color="nav-button"
+      (click)="sellFootballer()"
+    >
       SPRZEDAJ
     </button>
-    <button mat-raised-button color="nav-button">ZMIEŃ POZYCJĘ</button>
+    <button
+      mat-raised-button
+      color="nav-button"
+      (click)="openChangePosition(data?.footballer)"
+    >
+      ZMIEŃ POZYCJĘ
+    </button>
   </div>
 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Footballer } from './footballer.query';
-import { FootballerService } from './footballer.service';
+
 import { error } from 'console';
+import { ClubService } from '../club.service';
+import { Footballer } from '../club.query';
 
 @Component({
   selector: 'app-transfer-market',
@@ -9,7 +10,7 @@ import { error } from 'console';
   styleUrl: './transfer-market.component.css',
 })
 export class TransferMarketComponent implements OnInit {
-  constructor(public footballerService: FootballerService) {}
+  constructor(public footballerService: ClubService) {}
 
   footballers: Footballer[];
 

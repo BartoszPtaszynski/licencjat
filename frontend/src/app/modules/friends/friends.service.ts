@@ -8,10 +8,10 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class FriendsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
   getFriendsInfo(): Observable<FriendInfo[]> {
     return this.http.get<FriendInfo[]>(
-      `http://localhost:8080/player/getFriendsInfo?id=${AuthService.getLoginId()}`
+      `http://localhost:8080/player/getFriendsInfo?id=${this.authService.getLoginId()}`
     );
   }
 
@@ -20,14 +20,14 @@ export class FriendsService {
     pattern: string
   ): Observable<FriendResult[]> {
     return this.http.get<FriendResult[]>(
-      `http://localhost:8080/player/search?id=${AuthService.getLoginId()}&searchType=${searchType}&pattern=${pattern}`
+      `http://localhost:8080/player/search?id=${this.authService.getLoginId()}&searchType=${searchType}&pattern=${pattern}`
     );
   }
 
   addFriend(id: number) {
     this.http
       .post(
-        `http://localhost:8080/player/addFriend?id1=${AuthService.getLoginId()}&id2=${id}`,
+        `http://localhost:8080/player/addFriend?id1=${this.authService.getLoginId()}&id2=${id}`,
         {
           responseType: 'text',
         }

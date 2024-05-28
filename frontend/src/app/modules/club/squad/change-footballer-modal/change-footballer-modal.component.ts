@@ -6,5 +6,4 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './change-footballer-modal.component.html',
   styleUrl: './change-footballer-modal.component.css',
 })
-export class ChangeFootballerModalComponent {
-}
+export class ChangeFootballerModalComponent {}

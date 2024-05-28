@@ -77,23 +77,23 @@ export class AuthService implements CanActivate {
     this.router.navigate(['/']);
   }
 
-  static getLoginId(): string | null {
+  getLoginId(): string | null {
     if (typeof localStorage !== 'undefined') {
       return localStorage.getItem('loginID');
     }
     return null;
   }
   getUser(): Observable<Player | null> {
-    if (AuthService.getLoginId() == null) {
+    if (this.getLoginId() == null) {
       return null;
     }
     return this.http
-      .get(`${this.apiUrl}/player/${AuthService.getLoginId()}`)
+      .get(`${this.apiUrl}/player/${this.getLoginId()}`)
       .pipe(map((value: any) => Object.assign(new Player(), value)));
   }
 
   isAuthenticated(): boolean {
-    return !!AuthService.getLoginId();
+    return !!this.getLoginId();
   }
 
   getText(): Observable<String> {

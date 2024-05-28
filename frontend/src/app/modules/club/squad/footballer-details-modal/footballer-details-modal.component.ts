@@ -1,8 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FootballerClub, Position } from '../squad.query';
-import { SquadService } from '../squad.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+
 import { error } from 'console';
+import { FootballerClub, Position } from '../../club.query';
+import { ClubService } from '../../club.service';
+import { FootballerChangePositionModalComponent } from '../footballer-change-position-modal/footballer-change-position-modal.component';
 
 @Component({
   selector: 'app-footballer-details-modal',
@@ -11,8 +17,9 @@ import { error } from 'console';
 })
 export class FootballerDetailsModalComponent {
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { footballer: FootballerClub },
-    private squadService: SquadService,
+    private clubService: ClubService,
     public dialogRef: MatDialogRef<FootballerDetailsModalComponent>
   ) {}
 
@@ -24,11 +31,21 @@ export class FootballerDetailsModalComponent {
   }
 
   sellFootballer() {
-    this.squadService.sellFootballer(this.data.footballer).subscribe(
+    this.clubService.sellFootballer(this.data.footballer).subscribe(
       (result) =>
         alert(result.name + ' ' + result.surname + 'został sprzedany!'),
       (error) => alert(error.error)
     );
     this.dialogRef.close();
+  }
+
+  openChangePosition(footballer: FootballerClub): void {
+    const dialogRef = this.dialog.open(FootballerChangePositionModalComponent, {
+      data: { footballer },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.dialog.closeAll();
+    });
   }
 }

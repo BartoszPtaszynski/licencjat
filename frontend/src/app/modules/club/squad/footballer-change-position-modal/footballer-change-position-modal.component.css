@@ -1,0 +1,35 @@
+.listOfFootballers {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  justify-content: center;
+}
+.footballer {
+  cursor: pointer;
+  width: 16vh;
+  height: 22.5vh;
+  border-radius: 41px;
+  line-height: 1;
+  margin: 5px;
+  background-color: rgb(248, 228, 112);
+
+  margin-top: 5px;
+}
+.footballer mat-card-title {
+  line-height: 1;
+}
+
+.content {
+  background-color: #f1ffe7;
+  height: 100%;
+  position: relative;
+  width: 300px;
+  text-align: center;
+  align-items: center;
+}
+
+.selected {
+  background-color: rgb(211, 181, 14);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
