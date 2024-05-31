@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -19,4 +20,11 @@ public class Position {
     private String nameOfPosition;
     private String shortcut;
 
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Position position =  (Position) obj;
+        return this.getShortcut().equals(position.shortcut) && this.getNameOfPosition().equals(position.getNameOfPosition());
+    }
 }

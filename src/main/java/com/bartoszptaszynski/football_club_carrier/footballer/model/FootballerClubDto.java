@@ -18,4 +18,9 @@ public class FootballerClubDto extends Footballer {
         super(footballer.getId(),footballer.getName(),footballer.getSurname(),footballer.getRating(),footballer.getValue(),footballer.getFootballerPositions());
         this.activePosition = position;
     }
+
+    public FootballerClubDto(Long id, String name, String surname, int rating, int value, List<Position> footballerPositions, Position activePosition) {
+        super(id, name, surname, rating, value, footballerPositions);
+        this.activePosition = activePosition;
+    }
 }

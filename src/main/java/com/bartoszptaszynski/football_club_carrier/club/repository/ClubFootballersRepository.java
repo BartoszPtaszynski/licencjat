@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface ClubFootballersRepository extends JpaRepository<ClubFootballers,Long> {
-    @Query("select avg(clubFootballer.footballer.rating ) from " +
+    @Query("select sum(clubFootballer.footballer.rating )/11 from " +
             "club_footballers clubFootballer where clubFootballer.club.id=:id and clubFootballer.position.shortcut <> 'R' ")
     public int getRatingOfSquad(@Param("id") Long id);
 
@@ -25,8 +25,26 @@ public interface ClubFootballersRepository extends JpaRepository<ClubFootballers
             "club_footballers clubFootballer where clubFootballer.club.id=:id ")
     public List<FootballerClubDto> allClubFootballers(@Param("id") Long id);
 
+    @Query("select clubFootballer " +
+         "from " +
+            "club_footballers clubFootballer where clubFootballer.club.id=:id ")
+    public List<ClubFootballers> clubFootballers(@Param("id") Long id);
+
     Optional<ClubFootballers> findByFootballerAndClub(Footballer footballer,Club club);
-boolean existsByFootballerAndClub(Footballer footballer, Club club);
+
+    @Query("select new com.bartoszptaszynski.football_club_carrier.footballer.model.FootballerClubDto(" +
+            "clubFootballer.footballer, " +
+            "clubFootballer.position )" +
+            "from club_footballers  clubFootballer " +
+            "where clubFootballer.club=:club and clubFootballer.footballer.id = :footballerId")
+    Optional<FootballerClubDto> findByFootballerId(@Param("footballerId") Long footballerId, @Param("club") Club club);
+
+@Query("select clubfootballer from club_footballers  clubfootballer " +
+        "where clubfootballer.club.id = :clubId And clubfootballer.footballer.id = :footballerId")
+    public ClubFootballers clubFootballer(@Param("clubId") Long clubId, @Param("footballerId") Long footballerId);
+
+
+    boolean existsByFootballerAndClub(Footballer footballer, Club club);
 //    @Query("select clubFootballer from club_footballers clubFootballer  where clubFootballer.footballer.id=:footballerId and clubFootballer.club.id=:clubId")
 //    boolean existsByFootballerIdAndClubId(@Param("footballerId") Long footballerId, @Param("clubId") Long clubId);
 

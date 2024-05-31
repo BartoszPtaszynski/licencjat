@@ -12,12 +12,13 @@ import java.util.stream.Stream;
 public enum FormationEnum {
     _1_4_4_2("1-4-4-2",List.of("BR","LO","LŚO","PŚO","PO","LP","LŚP","PŚP","PP","LN","PN")),
     _1_4_3_3("1-4-3-3",List.of("BR","LO","LŚO","PŚO","PO","LS","LŚP","PŚP","PS","N","ŚP")),
-    _1_3_5_2("1-3-5-2",List.of("BR","LśO","ŚO","PŚO","PP","LP","LŚP","PŚP","ŚP","LN","PN"));
+    _1_3_5_2("1-3-5-2",List.of("BR","LŚO","ŚO","PŚO","PP","LP","LŚP","PŚP","ŚP","LN","PN"));
 
 
     private final String name;
 
     private final List<String> listOfPositions;
+
      FormationEnum( String name,List<String> listOfPositions) {
          this.listOfPositions = listOfPositions;
          this.name = name;
@@ -31,5 +32,11 @@ public enum FormationEnum {
                         Map.entry("listOfPositions", formation.listOfPositions
                 ))).collect(Collectors.toList());
      }
-
+    public Map<String,Object> getFormation(FormationEnum formation) {
+         return Map.ofEntries(
+                 Map.entry("code",formation.toString()),
+                 Map.entry("name",formation.name),
+                 Map.entry("listOfPositions", formation.listOfPositions
+                 ));
+    }
 }

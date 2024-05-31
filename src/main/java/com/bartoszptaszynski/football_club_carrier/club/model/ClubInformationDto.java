@@ -3,6 +3,8 @@ package com.bartoszptaszynski.football_club_carrier.club.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 @Builder
 public class ClubInformationDto {
@@ -12,7 +14,7 @@ public class ClubInformationDto {
     private int value;
     private int funds;
     private String crest;
-
+    private Map<String,Object> formation;
 
 
 }

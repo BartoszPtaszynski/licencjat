@@ -21,6 +21,5 @@ public class ApiFootballerController {
     @GetMapping()
     public List<FootballerDto> getFilteredFootballers() {
         return footballerService.getFilteredFootballers();
-
     }
 }
