@@ -45,13 +45,25 @@ export class FootballerChangePositionModalComponent implements OnInit {
   }
 
   changeFootballer() {
-    return this.clubService
-      .changeFootballer(this.data.footballer.id, this.selectedFootballer.id)
-      .subscribe(
-        (result) => {
-          this.dialogRef.close();
-        },
-        (error) => console.log(error)
-      );
+    this.selectedFootballer.id !== null
+      ? this.clubService
+          .changeFootballer(this.data.footballer.id, this.selectedFootballer.id)
+          .subscribe(
+            (result) => {
+              this.dialogRef.close();
+            },
+            (error) => console.log(error)
+          )
+      : this.clubService
+          .changeFootballerWithEmptyPosition(
+            this.data.footballer.id,
+            this.selectedFootballer.activePosition.shortcut
+          )
+          .subscribe(
+            (result) => {
+              this.dialogRef.close();
+            },
+            (error) => console.log(error)
+          );
   }
 }

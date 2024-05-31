@@ -8,6 +8,7 @@
         *ngFor="let footballer of footballers"
         (click)="selectFootballer(footballer)"
         [ngClass]="{ selected: selectedFootballer === footballer }"
+        [ngClass]="{ empty: footballer.id === null }"
       >
         <mat-card-header>
           <mat-card-title
@@ -17,7 +18,7 @@
             footballer.activePosition.nameOfPosition
           }}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content *ngIf="footballer.id !== null">
           ocena:
           <h2 style="font-size: 30px">{{ footballer?.rating }}</h2>
           cena:

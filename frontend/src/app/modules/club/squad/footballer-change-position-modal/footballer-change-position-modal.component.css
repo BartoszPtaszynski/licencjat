@@ -19,6 +19,10 @@
 .footballer mat-card-title {
   line-height: 1;
 }
+.empty {
+  background-color: white;
+  opacity: 0.5;
+}
 
 .content {
   background-color: #f1ffe7;

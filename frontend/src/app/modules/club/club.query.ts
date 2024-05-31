@@ -11,9 +11,10 @@ export interface ClubInformation {
   value: number;
   funds: number;
   crest: string;
+  formation: Formation;
 }
 
-export interface FootballerClub {
+export class FootballerClub {
   id: number;
   name: string;
   surname: string;
@@ -21,12 +22,34 @@ export interface FootballerClub {
   value: number;
   footballerPositions: Position[];
   activePosition: Position;
+  constructor(
+    id: number,
+    name: string,
+    surname: string,
+    rating: number,
+    value: number,
+    footballerPositions: Position[],
+    activePosition: string
+  ) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.rating = rating;
+    this.value = value;
+    this.footballerPositions = footballerPositions;
+    this.activePosition = new Position(activePosition);
+  }
 }
 
-export interface Position {
+export class Position {
   id: number;
   nameOfPosition: string;
   shortcut: string;
+  constructor(shortcut: string) {
+    this.id = null;
+    this.nameOfPosition = null;
+    this.shortcut = shortcut;
+  }
 }
 export interface Footballer {
   id: number;

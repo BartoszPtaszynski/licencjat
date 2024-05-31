@@ -5,8 +5,15 @@ import { FootballerDetailsModalComponent } from './footballer-details-modal/foot
 
 import { error, time } from 'console';
 import { timer } from 'rxjs';
-import { FootballerClub, Position } from '../club.query';
+import { ClubInformation, FootballerClub, Position } from '../club.query';
 import { ClubService } from '../club.service';
+
+class emptyFootballer {
+  name: string;
+  constructor() {
+    this.name = 'NO FOOTBALLER';
+  }
+}
 
 @Component({
   selector: 'app-squad',
@@ -19,16 +26,22 @@ export class SquadComponent implements OnInit {
 
   footballers: FootballerClub[];
 
+  clubInfo: ClubInformation = null;
+
   openChangeFormation(): void {
     const dialogRef = this.dialog.open(ChangeFootballerModalComponent, {
       panelClass: 'custom-dialog',
-      data: { name: 'this.player.username', animal: 'this.animal' },
+      data: { formation: this.clubInfo.formation },
     });
 
     dialogRef.afterClosed().subscribe(() => {
+      this.loadFootballers();
+      this.loadClubInformation();
+
       console.log('The dialog was closed');
     });
   }
+
   openFootballerDetails(footballer: FootballerClub): void {
     const dialogRef = this.dialog.open(FootballerDetailsModalComponent, {
       width: '500px', // Dostosuj szerokość dialogu według potrzeb
@@ -39,6 +52,8 @@ export class SquadComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.loadFootballers();
+      this.loadClubInformation();
+
       console.log('The dialog was closed');
     });
   }
@@ -50,13 +65,15 @@ export class SquadComponent implements OnInit {
         //   // Tutaj możesz umieścić kod, który ma zostać wykonany po opóźnieniu
 
         this.footballers = result;
-        console.log(result);
+        // this.addEmptyFootballers();
+
         this.loadingData = false;
         // });
       },
       (error) => console.log(error)
     );
   }
+
   footballerOnReserve() {
     return this.footballers.filter(
       (footballer) => footballer.activePosition.shortcut == 'R'
@@ -75,8 +92,15 @@ export class SquadComponent implements OnInit {
       .map((position: Position) => position.shortcut)
       .join(',');
   }
+  loadClubInformation() {
+    this.clubService.getClubInformation().subscribe(
+      (result) => (this.clubInfo = result),
+      (error) => console.log('error')
+    );
+  }
 
   ngOnInit(): void {
     this.loadFootballers();
+    this.loadClubInformation();
   }
 }

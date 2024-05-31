@@ -99,4 +99,26 @@ export class ClubService {
       }
     );
   }
+  changeFootballerWithEmptyPosition(
+    footballerId: number,
+    position: string
+  ): Observable<any> {
+    return this.http.put(
+      `http://localhost:8080/club/changeEmptyFootballer?footballerId=${footballerId}&positionShortcut=${position}&userId=${this.loginId}`,
+      null,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+
+  changeFormation(formation: string) {
+    return this.http.put(
+      `http://localhost:8080/club/changeFormation?formation=${formation}&userId=${this.loginId}`,
+      null,
+      {
+        responseType: 'text',
+      }
+    );
+  }
 }
