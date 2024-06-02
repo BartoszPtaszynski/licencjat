@@ -1,50 +1,48 @@
-import { Component } from '@angular/core';
-
-export interface PeriodicElement {
-  team1: string;
-  score: string;
-  team2: string;
-  points: number;
-  league: number;
-  collectedMoney: number;
-  collectedPoints: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    team1: 'testTeam',
-    score: '1:0',
-    team2: 'real Madrid',
-    points: 5500,
-    league: 3,
-    collectedMoney: 7500,
-    collectedPoints: 500,
-  },
-  {
-    team1: 'testTeam',
-    score: '0:5',
-    team2: 'FC Barcelona',
-    points: 6000,
-    league: 3,
-    collectedMoney: -1500,
-    collectedPoints: -350,
-  },
-];
+import { Component, OnInit } from '@angular/core';
+import { ClubService } from '../club.service';
+import { MatchInformation } from '../club.query';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrl: './results.component.css',
 })
-export class ResultsComponent {
+export class ResultsComponent implements OnInit {
+  constructor(private clubService: ClubService) {}
+  loadingData: boolean = true;
+  ngOnInit(): void {
+    this.clubService.getResults().subscribe((result) => {
+      this.teamResults = result;
+      this.updateDisplayedResults();
+      this.loadingData = false;
+    });
+  }
+
+  teamResults: MatchInformation[];
+  displayedResults: MatchInformation[];
+
   displayedColumns: string[] = [
     'team1',
     'score',
     'team2',
-    'points',
+    'hostRating',
+    'guestRating',
     'league',
     'collectedMoney',
     'collectedPoints',
   ];
-  dataSource = ELEMENT_DATA;
+
+  currentPage = 0;
+  itemsPerPage = 7;
+  onPageChange(page: any) {
+    this.currentPage = page?.pageIndex;
+    console.log(this.currentPage);
+    this.updateDisplayedResults();
+  }
+  updateDisplayedResults() {
+    this.displayedResults = this.teamResults.slice(
+      this.currentPage * this.itemsPerPage,
+      (this.currentPage + 1) * this.itemsPerPage
+    );
+  }
 }

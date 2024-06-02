@@ -4,8 +4,10 @@ import com.bartoszptaszynski.football_club_carrier.club.Exception.ClubNotFoundEx
 import com.bartoszptaszynski.football_club_carrier.club.command.ClubCommand;
 import com.bartoszptaszynski.football_club_carrier.club.model.ClubInformationDto;
 import com.bartoszptaszynski.football_club_carrier.club.model.FormationEnum;
+import com.bartoszptaszynski.football_club_carrier.club.model.MatchDto;
 import com.bartoszptaszynski.football_club_carrier.club.model.entity.Club;
 import com.bartoszptaszynski.football_club_carrier.club.model.entity.ClubFootballers;
+import com.bartoszptaszynski.football_club_carrier.club.model.entity.Match;
 import com.bartoszptaszynski.football_club_carrier.club.repository.ClubFootballersRepository;
 import com.bartoszptaszynski.football_club_carrier.club.repository.ClubRepository;
 import com.bartoszptaszynski.football_club_carrier.club.repository.MatchRepository;
@@ -26,6 +28,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Slf4j
 @Service
@@ -230,5 +234,100 @@ public class ClubService {
         clubRepository.save(club);
         clubFootballersRepository.saveAll(clubFootballers);
     }
+
+    public MatchDto playMatch(Long userId) {
+        Player player = playerRepository.findPlayerById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        Club hostClub = player.getClub();
+        int league = hostClub.getLeague();
+        Club guestClub = clubRepository.findClubInTheSameLeague(hostClub.getLeague(),hostClub.getId());
+
+        int hostRating=clubFootballersRepository.getRatingOfSquad(hostClub.getId());
+        int guestRating=clubFootballersRepository.getRatingOfSquad(guestClub.getId());
+
+        int sumOfRatings=hostRating+guestRating;
+        //draw  ~~15%
+
+        int SumWithDraw= (int) Math.round(sumOfRatings/0.85);
+
+        Random random=new Random();
+        int drawnNumber = random.nextInt(SumWithDraw)+1;
+        int guestScore;
+        int hostScore;
+
+        int hostCollectedMoney=0;
+        int hostCollectedPoints=0;
+        int guestCollectedMoney=0;
+        int guestCollectedPoints=0;
+
+        if( drawnNumber<=hostRating) {
+            hostScore=random.nextInt(5)+1;
+            guestScore=random.nextInt(hostScore);
+            Map<String,Integer> map = hostClub.setValueAndFundsAfterMatch(true);
+            hostCollectedMoney = map.get("funds");
+            hostCollectedPoints = map.get("value");
+            map = guestClub.setValueAndFundsAfterMatch(false);
+            guestCollectedMoney = map.get("funds");
+            guestCollectedPoints = map.get("value");
+
+        }
+        else if(drawnNumber<=hostRating+guestRating)
+        {
+            guestScore=random.nextInt(5)+1;
+            hostScore=random.nextInt(guestScore);
+            Map<String,Integer> map = hostClub.setValueAndFundsAfterMatch(false);
+            hostCollectedMoney = map.get("funds");
+            hostCollectedPoints = map.get("value");
+
+            map = guestClub.setValueAndFundsAfterMatch(true);
+            guestCollectedMoney = map.get("funds");
+            guestCollectedPoints = map.get("value");
+        }
+        else {
+            guestScore=random.nextInt(5)+1;
+            hostScore=guestScore;
+        }
+
+        MatchDto matchInfo=MatchDto.builder()
+                .hostTeamScore(hostScore)
+                .guestTeamScore(guestScore)
+                .hostClubName(hostClub.getName())
+                .guestClubName(guestClub.getName())
+                .hostSquadRating(hostRating)
+                .guestSquadRating(guestRating)
+                .collectedPoints(hostCollectedPoints)
+                .collectedMoney(hostCollectedMoney)
+                .league(league)
+                .build();
+
+        clubRepository.save(hostClub);
+        clubRepository.save(guestClub);
+        Match match=new Match(hostScore,guestScore,hostClub,guestClub,league,hostCollectedMoney,guestCollectedMoney,hostRating,guestRating,hostCollectedPoints,guestCollectedPoints);
+        matchRepository.save(match);
+
+    return matchInfo;
+    }
+
+    public List<MatchDto> getResults(Long userId) {
+        Player player = playerRepository.findPlayerById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        Club hostClub = player.getClub();
+
+        return matchRepository.getResults(hostClub.getId()).stream()
+                .map(match->MatchDto.builder()
+                        .hostClubName(match.getHostClub().getName())
+                        .guestClubName(match.getGuestClub().getName())
+                        .hostTeamScore(match.getHostTeamScore())
+                        .league(match.getLeague())
+                        .guestTeamScore(match.getGuestTeamScore())
+                        .hostSquadRating(match.getHostClubRating())
+                        .guestSquadRating(match.getGuestClubRating())
+                        .collectedMoney(match.getHostClub().equals(hostClub)?match.getHostCollectedMoney(): match.getGuestCollectedMoney())
+                        .collectedPoints(match.getHostClub().equals(hostClub)?match.getHostCollectedPoints():match.getGuestCollectedPoints())
+                        .build())
+                .toList();
+
+
+
+    }
+
 
 }

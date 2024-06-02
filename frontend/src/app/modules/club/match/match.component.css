@@ -34,7 +34,7 @@
 }
 
 .result h1 {
-  font-size: 100px;
+  font-size: 60px;
   margin: 50px;
 }
 .result {
@@ -53,14 +53,14 @@
   background: radial-gradient(rgb(239, 255, 19), rgb(230, 210, 113));
   border-radius: 25px;
 
-  width: 400px; /* Szerokość przycisku */
+  width: px; /* Szerokość przycisku */
   height: 80px;
   font-size: 20px;
   line-height: 1.5;
 }
 
 .mat-mdc-raised-button.mat-save {
-  width: 400px; /* Szerokość przycisku */
+  width: 250px; /* Szerokość przycisku */
   height: 80px;
   font-size: 20px;
 }

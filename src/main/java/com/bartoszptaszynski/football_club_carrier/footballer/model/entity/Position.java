@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "positions")
-
 public class Position {
     @Id
     private Long id;

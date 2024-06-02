@@ -1,6 +1,7 @@
 package com.bartoszptaszynski.football_club_carrier.footballer.repository;
 
 import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Footballer;
+import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Position;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,11 @@ public interface FootballerRepository extends JpaRepository<Footballer,Long> {
     )
     Footballer findByPosition(@Param("position") String position);
 
-    @Query("select footballer from footballers footballer order by footballer.rating desc ")
-    List<Footballer> findByFilters();
+    @Query("SELECT footballer FROM footballers footballer " +
+            "JOIN footballer.footballerPositions positions " +
+            "WHERE footballer.value >= :priceFrom AND footballer.value <= :priceTo AND footballer.rating >= :ratingFrom AND footballer.rating <= :ratingTo " +
+            "AND ( :positionId = 0  OR positions.id = :positionId) "+
+            "ORDER BY footballer.rating DESC")
+    List<Footballer> findByFilters(@Param("priceFrom") int priceFrom, @Param("priceTo") int priceTo, @Param("ratingFrom") int ratingFrom, @Param("ratingTo") int ratingTo, @Param("positionId") Long positionId);
+
 }

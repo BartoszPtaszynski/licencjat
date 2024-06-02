@@ -8,7 +8,7 @@
   background-color: #f1ffe7;
   border-radius: 20px;
   padding: 100px;
-  margin: 25px;
+  margin: 10px;
   position: relative;
   width: 50%;
   height: 50vh;
@@ -28,5 +28,5 @@
 }
 .heading {
   font-size: 70px;
-  padding-bottom: 5%;
+  padding-bottom: 1%;
 }

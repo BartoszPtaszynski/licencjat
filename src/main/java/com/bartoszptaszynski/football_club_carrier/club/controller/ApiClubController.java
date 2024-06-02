@@ -114,4 +114,19 @@ public class ApiClubController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+
+    @PostMapping("/playMatch")
+    public ResponseEntity<?> playMatch(@RequestParam Long userId) {
+        try {
+
+            return ResponseEntity.ok(clubService.playMatch(userId));
+        }catch (UserNotFoundException|ClubNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping("/results")
+    public ResponseEntity<?> getResults(@RequestParam Long userId) {
+        return ResponseEntity.ok(clubService.getResults(userId));
+    }
 }

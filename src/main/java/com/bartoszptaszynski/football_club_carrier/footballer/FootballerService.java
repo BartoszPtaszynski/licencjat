@@ -4,6 +4,7 @@ import com.bartoszptaszynski.football_club_carrier.footballer.model.FootballerDt
 import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Footballer;
 import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Position;
 import com.bartoszptaszynski.football_club_carrier.footballer.repository.FootballerRepository;
+import com.bartoszptaszynski.football_club_carrier.footballer.repository.PositionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,13 @@ import java.util.stream.Collectors;
 public class FootballerService {
     @Autowired
     private FootballerRepository footballerRepository;
+    @Autowired
+    private PositionRepository positionRepository;
 
-    public void getAllFootballers() {
-        List<Footballer> footballers = footballerRepository.findAll();
-        footballers.stream().forEach(s-> System.out.println(s));
-        footballers.stream().forEach(s->log.info(s.toString()));
-    }
 
-    public List<FootballerDto>  getFilteredFootballers() {
-       return footballerRepository.findByFilters().stream()
+
+    public List<FootballerDto>  getFilteredFootballers( int priceFrom,int priceTo,int ratingForm, int ratingTo, Long positionId) {
+       return footballerRepository.findByFilters(  priceFrom, priceTo, ratingForm,  ratingTo,positionId).stream()
                .map(footballer -> FootballerDto.builder()
                        .id(footballer.getId())
                        .name(footballer.getName())
@@ -35,6 +34,9 @@ public class FootballerService {
                                .map(Position::getShortcut)
                                .collect(Collectors.joining(", ")))
                        .build()).collect(Collectors.toList());
+    }
+    public List<Position> getAllPositions() {
+        return positionRepository.findAll();
     }
 
 

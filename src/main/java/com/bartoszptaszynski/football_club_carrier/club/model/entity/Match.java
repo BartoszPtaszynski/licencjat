@@ -22,4 +22,30 @@ public class Match {
     @ManyToOne
     @JoinColumn(name="guest_club_id",referencedColumnName = "id")
     private Club guestClub;
+    private int league;
+    private int hostCollectedMoney;
+    private int guestCollectedMoney;
+    private int hostClubRating;
+    private int guestClubRating;
+    private int hostCollectedPoints;
+    private int guestCollectedPoints;
+
+
+    public Match(int hostTeamScore, int guestTeamScore, Club hostClub, Club guestClub, int league, int hostCollectedMoney, int guestCollectedMoney, int hostClubRating, int guestClubRating, int hostCollectedPoints, int guestCollectedPoints) {
+        this.hostTeamScore = hostTeamScore;
+        this.guestTeamScore = guestTeamScore;
+        this.hostClub = hostClub;
+        this.guestClub = guestClub;
+        this.league = league;
+        this.hostCollectedMoney = hostCollectedMoney;
+        this.guestCollectedMoney = guestCollectedMoney;
+        this.hostClubRating = hostClubRating;
+        this.guestClubRating = guestClubRating;
+        this.hostCollectedPoints = hostCollectedPoints;
+        this.guestCollectedPoints = guestCollectedPoints;
+    }
+
+    public Match() {
+
+    }
 }

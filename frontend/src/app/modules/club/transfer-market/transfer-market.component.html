@@ -54,7 +54,85 @@
       <div class="info">
         <h1>SALDO KLUBU: <b>445000</b></h1>
 
-        <button mat-raised-button color="nav-button">FILTRUJ ZAWODNIKÓW</button>
+        <div class="filters">
+          Filtruj:
+          <h2 mat-dialog-title>filtruj zawodników:</h2>
+          <mat-dialog-content>
+            <p>Cena:</p>
+            <mat-form-field style="width: 130px">
+              <mat-label>od:</mat-label>
+              <input
+                matInput
+                type="number"
+                placeholder="0"
+                [(ngModel)]="filters.priceFrom"
+              />
+              <span matTextSuffix>$</span>
+            </mat-form-field>
+            <mat-form-field style="width: 130px">
+              <mat-label>do:</mat-label>
+              <input
+                matInput
+                type="number"
+                placeholder="0"
+                [(ngModel)]="filters.priceTo"
+              />
+              <span matTextSuffix>$</span>
+            </mat-form-field>
+
+            <p>Rating:</p>
+            <mat-form-field style="width: 130px">
+              <mat-label>od:</mat-label>
+              <input
+                matInput
+                type="number"
+                placeholder="0"
+                [(ngModel)]="filters.ratingFrom"
+              />
+            </mat-form-field>
+            <mat-form-field style="width: 130px">
+              <mat-label>do:</mat-label>
+              <input
+                matInput
+                type="number"
+                placeholder="0"
+                [(ngModel)]="filters.ratingTo"
+              />
+            </mat-form-field>
+
+            <p>Wybierz pozycje:</p>
+            <mat-form-field>
+              <mat-label>Pozycja:</mat-label>
+              <mat-select required [(ngModel)]="filters.position">
+                <mat-option
+                  *ngFor="let position of positions"
+                  [value]="position.id"
+                  >{{ position.nameOfPosition }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </mat-dialog-content>
+
+          <mat-dialog-actions>
+            <button
+              mat-raised-button
+              color="nav-button"
+              (click)="loadFootballers()"
+            >
+              FILTRUJ ZAWODNIKÓW
+            </button>
+          </mat-dialog-actions>
+
+          <br />
+          <button
+            mat-raised-button
+            color="cancel"
+            style="margin: 10px"
+            (click)="resetFilters()"
+          >
+            RESETUJ FILTRY
+          </button>
+        </div>
       </div>
     </div>
   </div>

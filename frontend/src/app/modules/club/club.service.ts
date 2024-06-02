@@ -8,6 +8,8 @@ import {
   Footballer,
   FootballerClub,
   Formation,
+  MatchInformation,
+  Position,
 } from './club.query';
 
 @Injectable({
@@ -67,8 +69,21 @@ export class ClubService {
     );
   }
 
-  getFootballers(): Observable<Footballer[]> {
-    return this.http.get<Footballer[]>('http://localhost:8080/footballers');
+  getFootballers(
+    priceFrom: number,
+    priceTo: number,
+    ratingFrom: number,
+    ratingTo: number,
+    positions: number
+  ): Observable<Footballer[]> {
+    return this.http.get<Footballer[]>(
+      `http://localhost:8080/footballers?priceFrom=${priceFrom}&priceTo=${priceTo}&ratingForm=${ratingFrom}&ratingTo=${ratingTo}&positionId=${positions}`
+    );
+  }
+  getPositions(): Observable<Position[]> {
+    return this.http.get<Position[]>(
+      `http://localhost:8080/footballers/positions`
+    );
   }
 
   buyFootballer(footballerId: number) {
@@ -119,6 +134,19 @@ export class ClubService {
       {
         responseType: 'text',
       }
+    );
+  }
+
+  playMatch(): Observable<MatchInformation> {
+    return this.http.post<MatchInformation>(
+      `http://localhost:8080/club/playMatch?userId=${this.loginId}`,
+      null
+    );
+  }
+
+  getResults(): Observable<MatchInformation[]> {
+    return this.http.get<MatchInformation[]>(
+      `http://localhost:8080/club/results?userId=${this.loginId}`
     );
   }
 }

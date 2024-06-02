@@ -59,3 +59,16 @@ export interface Footballer {
   positions: string;
   value: number;
 }
+
+export interface MatchInformation {
+  hostTeamScore: number;
+  guestTeamScore: number;
+  hostClubName: string;
+  guestClubName: string;
+  hostSquadRating: number;
+  guestSquadRating: number;
+  clubPoints: number;
+  league: number;
+  collectedMoney: number;
+  collectedPoints: number;
+}
