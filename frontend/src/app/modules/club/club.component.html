@@ -17,7 +17,7 @@
         </button>
       </li>
       <li class="nav-item">
-        <button mat-raised-button color="nav-button" routerLink="/match">
+        <button mat-raised-button color="nav-button" (click)="playMatch()">
           ZAGRAJ MECZ
         </button>
       </li>
@@ -52,7 +52,6 @@
       <h1 class="heading">
         KLUB: <b>{{ clubInfo?.name }}</b>
       </h1>
-      <h1>{{ clubInfo?.crest }}</h1>
     </div>
 
     <div class="content">

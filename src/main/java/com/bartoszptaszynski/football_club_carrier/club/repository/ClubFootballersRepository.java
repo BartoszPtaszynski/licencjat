@@ -5,6 +5,7 @@ import com.bartoszptaszynski.football_club_carrier.club.model.entity.ClubFootbal
 import com.bartoszptaszynski.football_club_carrier.footballer.model.FootballerClubDto;
 import com.bartoszptaszynski.football_club_carrier.footballer.model.FootballerDto;
 import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Footballer;
+import com.bartoszptaszynski.football_club_carrier.footballer.model.entity.Position;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,11 @@ public interface ClubFootballersRepository extends JpaRepository<ClubFootballers
             "clubFootballer.position)from " +
             "club_footballers clubFootballer where clubFootballer.club.id=:id ")
     public List<FootballerClubDto> allClubFootballers(@Param("id") Long id);
+
+
+    @Query("select footballer.position from club_footballers  footballer " +
+            "where footballer.club.id = :id and footballer.position.shortcut <>'R'")
+    List<Position> getFootballersPositionsInSquad(@Param("id") Long id);
 
     @Query("select clubFootballer " +
          "from " +
@@ -47,5 +53,8 @@ public interface ClubFootballersRepository extends JpaRepository<ClubFootballers
     boolean existsByFootballerAndClub(Footballer footballer, Club club);
 //    @Query("select clubFootballer from club_footballers clubFootballer  where clubFootballer.footballer.id=:footballerId and clubFootballer.club.id=:clubId")
 //    boolean existsByFootballerIdAndClubId(@Param("footballerId") Long footballerId, @Param("clubId") Long clubId);
+
+
+
 
 }

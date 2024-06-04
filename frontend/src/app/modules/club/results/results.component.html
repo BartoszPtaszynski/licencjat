@@ -3,7 +3,12 @@
 </div>
 <div class="container" *ngIf="!loadingData">
   <div class="content">
-    <button class="left-button" mat-raised-button color="cancel" routerLink="">
+    <button
+      class="left-button"
+      mat-raised-button
+      color="cancel"
+      routerLink="/club"
+    >
       POWRÓT
     </button>
 
@@ -36,7 +41,9 @@
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="hostRating">
-        <th mat-header-cell *matHeaderCellDef>Ocena ogólna twojego składu</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Ocena ogólna składu gospodarza
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ element?.guestSquadRating }}
         </td>
@@ -44,9 +51,7 @@
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="guestRating">
-        <th mat-header-cell *matHeaderCellDef>
-          Ocena ogólna składu przeciwnika
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Ocena ogólna składu gościa</th>
         <td mat-cell *matCellDef="let element">
           {{ element?.hostSquadRating }}
         </td>

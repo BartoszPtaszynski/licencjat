@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClubService } from '../club.service';
 import { MatchInformation } from '../club.query';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-results',
@@ -8,14 +9,19 @@ import { MatchInformation } from '../club.query';
   styleUrl: './results.component.css',
 })
 export class ResultsComponent implements OnInit {
-  constructor(private clubService: ClubService) {}
+  constructor(
+    private clubService: ClubService,
+    private authService: AuthService
+  ) {}
   loadingData: boolean = true;
   ngOnInit(): void {
-    this.clubService.getResults().subscribe((result) => {
-      this.teamResults = result;
-      this.updateDisplayedResults();
-      this.loadingData = false;
-    });
+    if (this.authService.isAuthenticated()) {
+      this.clubService.getResults().subscribe((result) => {
+        this.teamResults = result;
+        this.updateDisplayedResults();
+        this.loadingData = false;
+      });
+    }
   }
 
   teamResults: MatchInformation[];

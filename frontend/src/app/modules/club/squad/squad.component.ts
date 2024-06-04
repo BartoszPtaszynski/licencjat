@@ -7,6 +7,7 @@ import { error, time } from 'console';
 import { timer } from 'rxjs';
 import { ClubInformation, FootballerClub, Position } from '../club.query';
 import { ClubService } from '../club.service';
+import { AuthService } from '../../auth/auth.service';
 
 class emptyFootballer {
   name: string;
@@ -21,7 +22,11 @@ class emptyFootballer {
   styleUrl: './squad.component.css',
 })
 export class SquadComponent implements OnInit {
-  constructor(public dialog: MatDialog, private clubService: ClubService) {}
+  constructor(
+    public dialog: MatDialog,
+    private clubService: ClubService,
+    private authService: AuthService
+  ) {}
   loadingData: boolean = true;
 
   footballers: FootballerClub[];
@@ -100,7 +105,9 @@ export class SquadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadFootballers();
-    this.loadClubInformation();
+    if (this.authService.isAuthenticated()) {
+      this.loadFootballers();
+      this.loadClubInformation();
+    }
   }
 }

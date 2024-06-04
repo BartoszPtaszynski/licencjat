@@ -10,7 +10,7 @@ export interface ClubInformation {
   rating: number;
   value: number;
   funds: number;
-  crest: string;
+
   formation: Formation;
 }
 

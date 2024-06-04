@@ -14,6 +14,7 @@ import {
 import { Player } from './auth.context';
 import { RegistrationCommand } from './registration/registration.command';
 import { LoginComponent } from './login/login.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,11 @@ import { LoginComponent } from './login/login.component';
 export class AuthService implements CanActivate {
   apiUrl = 'http://localhost:8080';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) {}
 
   login(command: LoginCommand): boolean {
     let message;
@@ -56,7 +61,7 @@ export class AuthService implements CanActivate {
           localStorage.setItem('loginID', response);
           this.router.navigate(['/']);
           setTimeout(() => {
-            alert('registered!');
+            this.openSuccessSnackBar('zarejestrowano!');
           }, 500);
         },
         (error) => {
@@ -71,6 +76,12 @@ export class AuthService implements CanActivate {
       );
   }
 
+  openSuccessSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+      panelClass: ['success-snackbar'],
+    });
+  }
+
   logout() {
     localStorage.removeItem('loginID');
     console.log(this.isAuthenticated() + 'xD');
@@ -78,7 +89,7 @@ export class AuthService implements CanActivate {
   }
 
   getLoginId(): string | null {
-    if (typeof localStorage !== 'undefined') {
+    if (typeof localStorage != 'undefined') {
       return localStorage.getItem('loginID');
     }
     return null;

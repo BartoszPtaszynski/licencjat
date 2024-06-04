@@ -85,7 +85,6 @@ public class PlayerService {
                     .build();
             return new ResponseEntity<>(playerInfo,HttpStatus.ACCEPTED);
         }catch (UserNotFoundException e) {
-            log.warn(e.getMessage());
             return new ResponseEntity<>("ERROR",HttpStatus.BAD_REQUEST);
         }
     }
@@ -137,8 +136,6 @@ public class PlayerService {
                                 .clubName(player.getClub()!=null?player.getClub().getName():"")
                                 .build()
                 ).toList();
-
-        log.info(String.valueOf(playerRepository.getPlayerByPattern(id,searchType,pattern).size()));
 
         return players;
     }

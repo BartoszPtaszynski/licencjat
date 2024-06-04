@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { ClubService } from './club.service';
 import { error } from 'console';
+import { Router } from '@angular/router';
+import { SnackbarService } from '../../snackbar.service';
+import { map } from 'rxjs';
 
 class ClubInfo {
   name: string;
@@ -9,7 +12,6 @@ class ClubInfo {
   rating: number;
   value: number;
   funds: number;
-  crest: string;
 }
 
 @Component({
@@ -20,14 +22,33 @@ class ClubInfo {
 export class ClubComponent implements OnInit {
   constructor(
     public authService: AuthService,
-    public clubService: ClubService
+    public clubService: ClubService,
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {}
   clubInfo: ClubInfo = null;
 
   ngOnInit(): void {
-    this.clubService.getClubInformation().subscribe(
-      (result) => (this.clubInfo = result),
-      (error) => console.log('error')
-    );
+    if (this.authService.isAuthenticated()) {
+      this.clubService
+        .getClubInformation()
+        .subscribe((result) => (this.clubInfo = result));
+    }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  playMatch() {
+    this.clubService.areAllFootballersInSquad().subscribe((result) => {
+      if (result === true) {
+        this.router.navigate(['/match']);
+      } else {
+        this.snackbarService.openWarnSnackBar(
+          'Nie masz wszystkich zawodników w składzie! Przejdź do składu aby uzupełnić pozycje'
+        );
+      }
+    });
   }
 }

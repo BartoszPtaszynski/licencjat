@@ -51,7 +51,7 @@ public class ClubService {
             throw new RuntimeException("player has already club");
         }
 
-        Club club = new Club(command.getName(),command.getCrest(),(command.getFormation()),player);
+        Club club = new Club(command.getName(),(command.getFormation()),player);
         clubRepository.save(club);
 
         player.setClub(club);
@@ -99,7 +99,6 @@ public class ClubService {
                     .league(club.getLeague())
                     .value(club.getValue())
                     .funds(club.getFunds())
-                    .crest(club.getCrest())
                     .formation( club.getFormation().getFormation(club.getFormation()))
                     .build();
         }
@@ -239,7 +238,7 @@ public class ClubService {
         Player player = playerRepository.findPlayerById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
         Club hostClub = player.getClub();
         int league = hostClub.getLeague();
-        Club guestClub = clubRepository.findClubInTheSameLeague(hostClub.getLeague(),hostClub.getId());
+        Club guestClub = clubRepository.findClubInTheSameLeagueWithElevenFootballers(hostClub.getLeague(),hostClub.getId());
 
         int hostRating=clubFootballersRepository.getRatingOfSquad(hostClub.getId());
         int guestRating=clubFootballersRepository.getRatingOfSquad(guestClub.getId());
@@ -309,9 +308,9 @@ public class ClubService {
 
     public List<MatchDto> getResults(Long userId) {
         Player player = playerRepository.findPlayerById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
-        Club hostClub = player.getClub();
+        Club club = player.getClub();
 
-        return matchRepository.getResults(hostClub.getId()).stream()
+        return matchRepository.getResults(club.getId()).stream()
                 .map(match->MatchDto.builder()
                         .hostClubName(match.getHostClub().getName())
                         .guestClubName(match.getGuestClub().getName())
@@ -320,13 +319,17 @@ public class ClubService {
                         .guestTeamScore(match.getGuestTeamScore())
                         .hostSquadRating(match.getHostClubRating())
                         .guestSquadRating(match.getGuestClubRating())
-                        .collectedMoney(match.getHostClub().equals(hostClub)?match.getHostCollectedMoney(): match.getGuestCollectedMoney())
-                        .collectedPoints(match.getHostClub().equals(hostClub)?match.getHostCollectedPoints():match.getGuestCollectedPoints())
+                        .collectedMoney(match.getHostClub().equals(club)?match.getHostCollectedMoney(): match.getGuestCollectedMoney())
+                        .collectedPoints(match.getHostClub().equals(club)?match.getHostCollectedPoints():match.getGuestCollectedPoints())
                         .build())
                 .toList();
-
-
-
+    }
+    public boolean allFootballersInSquad(Long userId)
+    {
+        Player player = playerRepository.findPlayerById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
+        Club club = player.getClub();
+        List<Position>  positions =  clubFootballersRepository.getFootballersPositionsInSquad(club.getId());
+        return positions.size() == 11;
     }
 
 

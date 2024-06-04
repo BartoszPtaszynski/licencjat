@@ -15,10 +15,10 @@ import { DialogData } from '../../home/home.component';
 import { ClubService } from '../club.service';
 import { AuthService } from '../../auth/auth.service';
 import { Formation } from '../club.query';
+import { SnackbarService } from '../../../snackbar.service';
 
 class ClubReq {
   name: string;
-  crest: string;
   formation: string;
 }
 
@@ -31,10 +31,11 @@ export class CreateClubModalComponent {
   constructor(
     private _clubService: ClubService,
     public dialogRef: MatDialogRef<CreateClubModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private snackbarService: SnackbarService
   ) {}
 
-  clubReq: ClubReq = { name: '', crest: '', formation: '' };
+  clubReq: ClubReq = { name: '', formation: '' };
   formations: Formation[];
   ngOnInit(): void {
     this._clubService.getFormations().subscribe(
@@ -45,7 +46,7 @@ export class CreateClubModalComponent {
         });
       },
       (error) => {
-        alert('Unable to load formations');
+        this.snackbarService.openWarnSnackBar('Unable to load formations');
       }
     );
   }

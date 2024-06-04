@@ -45,6 +45,8 @@ import { AboutAppComponent } from './modules/about-app/about-app.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FootballerChangePositionModalComponent } from './modules/club/squad/footballer-change-position-modal/footballer-change-position-modal.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,8 @@ import { FootballerChangePositionModalComponent } from './modules/club/squad/foo
     MatTableModule,
     MatGridListModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     provideClientHydration(),

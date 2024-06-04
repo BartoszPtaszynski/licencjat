@@ -8,7 +8,7 @@
     >
       POWRÓT
     </button>
-    <h1 class="heading">KLUB NAZWA - RYNEK TRANSFEROWY</h1>
+    <h1 class="heading">RYNEK TRANSFEROWY</h1>
     <div class="box">
       <div class="squad">
         <mat-grid-list cols="7">
@@ -106,7 +106,7 @@
               <mat-select required [(ngModel)]="filters.position">
                 <mat-option
                   *ngFor="let position of positions"
-                  [value]="position.id"
+                  [value]="position"
                   >{{ position.nameOfPosition }}</mat-option
                 >
               </mat-select>

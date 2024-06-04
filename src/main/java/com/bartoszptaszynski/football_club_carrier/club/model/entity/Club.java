@@ -31,7 +31,6 @@ public class Club {
     private int value;
     private int funds;
     private int league;
-    private String crest;
     @Enumerated(STRING)
     private FormationEnum formation;
 
@@ -50,9 +49,8 @@ public class Club {
         this.player = player;
         this.league = 5;
     }
-    public Club(String name, String crest, FormationEnum formation, Player player) {
+    public Club(String name, FormationEnum formation, Player player) {
         this.name = name;
-       this.crest = crest;
        this.formation = formation;
        value = 0;
        funds = 0;
@@ -123,11 +121,12 @@ public class Club {
                     newFunds=-4000;
                 }
             }
-            if(value<=0) value=0;
-            if(funds<=0) funds=0;
+
         }
         value+=newValue;
         funds+=newFunds;
+        if(value<=0) value=0;
+        if(funds<=0) funds=0;
         setLeague();
         Map<String,Integer> newValues=new HashMap<>();
         newValues.put("value",newValue);

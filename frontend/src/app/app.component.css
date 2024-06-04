@@ -53,3 +53,15 @@
   align-items: center;
   height: 100vh; /* Ustawia wysokość kontenera na całą wysokość widocznego obszaru */
 }
+::ng-deep .success-snackbar.mat-mdc-snack-bar-container {
+  background-color: #009726; /* Custom background color */
+  color: white; /* Custom text color */
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+
+::ng-deep .greenSnackbar {
+  background: rgb(65, 252, 134);
+  color: white;
+}

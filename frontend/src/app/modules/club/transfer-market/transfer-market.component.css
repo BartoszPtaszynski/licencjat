@@ -92,3 +92,8 @@ mat-paginator {
   width: 100%;
   border-radius: 25px;
 }
+
+::ng-deep .greenSnackbar {
+  background: rgb(65, 252, 134);
+  color: white;
+}

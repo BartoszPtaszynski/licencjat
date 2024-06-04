@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FriendInfo } from './friends.query';
 import { FriendsService } from './friends.service';
 import { AuthService } from '../auth/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-friends',
@@ -15,11 +16,15 @@ export class FriendsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private friendsService: FriendsService
+    private friendsService: FriendsService,
+    private location: Location,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.loadFriends();
+    if (this.authService.isAuthenticated()) {
+      this.loadFriends();
+    }
   }
 
   displayedColumns: string[] = [
@@ -54,5 +59,9 @@ export class FriendsComponent implements OnInit {
       );
       console.log('The dialog was closed');
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

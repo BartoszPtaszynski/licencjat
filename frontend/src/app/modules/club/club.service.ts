@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { ClubCommand } from './club.command';
 import { AuthService } from '../auth/auth.service';
 import { Observable, map } from 'rxjs';
@@ -17,14 +17,8 @@ import {
 })
 export class ClubService {
   apiUrl = 'http://localhost:8080';
-  constructor(private http: HttpClient, private authservice: AuthService) {
-    this.initializeLoginId();
-  }
-  loginId: string;
+  constructor(private http: HttpClient, public authservice: AuthService) {}
 
-  async initializeLoginId() {
-    this.loginId = await this.authservice.getLoginId();
-  }
   addClub(command: ClubCommand): void {
     this.http
       .post(
@@ -57,7 +51,7 @@ export class ClubService {
 
   getClubFootballers(): Observable<FootballerClub[]> {
     return this.http.get<FootballerClub[]>(
-      `http://localhost:8080/club/allFootballers?id=${this.loginId}`
+      `http://localhost:8080/club/allFootballers?id=${this.authservice.getLoginId()}`
     );
   }
 
@@ -98,7 +92,7 @@ export class ClubService {
 
   getFootballersForChange(footballerId: number): Observable<FootballerClub[]> {
     return this.http.get<FootballerClub[]>(
-      `http://localhost:8080/club/footballersToChange?footballerId=${footballerId}&userId=${this.loginId}`
+      `http://localhost:8080/club/footballersToChange?footballerId=${footballerId}&userId=${this.authservice.getLoginId()}`
     );
   }
 
@@ -107,7 +101,7 @@ export class ClubService {
     footballer2Id: number
   ): Observable<any> {
     return this.http.put(
-      `http://localhost:8080/club/changeFootballers?footballer1Id=${footballer1Id}&footballer2Id=${footballer2Id}&userId=${this.loginId}`,
+      `http://localhost:8080/club/changeFootballers?footballer1Id=${footballer1Id}&footballer2Id=${footballer2Id}&userId=${this.authservice.getLoginId()}`,
       null,
       {
         responseType: 'text',
@@ -119,7 +113,7 @@ export class ClubService {
     position: string
   ): Observable<any> {
     return this.http.put(
-      `http://localhost:8080/club/changeEmptyFootballer?footballerId=${footballerId}&positionShortcut=${position}&userId=${this.loginId}`,
+      `http://localhost:8080/club/changeEmptyFootballer?footballerId=${footballerId}&positionShortcut=${position}&userId=${this.authservice.getLoginId()}`,
       null,
       {
         responseType: 'text',
@@ -129,7 +123,7 @@ export class ClubService {
 
   changeFormation(formation: string) {
     return this.http.put(
-      `http://localhost:8080/club/changeFormation?formation=${formation}&userId=${this.loginId}`,
+      `http://localhost:8080/club/changeFormation?formation=${formation}&userId=${this.authservice.getLoginId()}`,
       null,
       {
         responseType: 'text',
@@ -139,14 +133,20 @@ export class ClubService {
 
   playMatch(): Observable<MatchInformation> {
     return this.http.post<MatchInformation>(
-      `http://localhost:8080/club/playMatch?userId=${this.loginId}`,
+      `http://localhost:8080/club/playMatch?userId=${this.authservice.getLoginId()}`,
       null
     );
   }
 
   getResults(): Observable<MatchInformation[]> {
     return this.http.get<MatchInformation[]>(
-      `http://localhost:8080/club/results?userId=${this.loginId}`
+      `http://localhost:8080/club/results?userId=${this.authservice.getLoginId()}`
+    );
+  }
+
+  areAllFootballersInSquad(): Observable<boolean> {
+    return this.http.get<boolean>(
+      `http://localhost:8080/club/allFootballersInSquad?userId=${this.authservice.getLoginId()}`
     );
   }
 }

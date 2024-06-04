@@ -5,29 +5,56 @@
       mat-raised-button
       color="save"
       routerLink="/club"
+      *ngIf="isMatchFinished"
     >
       WYJDŹ Z MECZU
     </button>
     <h1 class="heading">TWÓJ MECZ!</h1>
-
+    <h1>
+      Minuta meczu: <B>{{ minCounter }}</B>
+    </h1>
+    <div class="animation" *ngIf="showAnimation">
+      <img src="assets/goalAnimation.gif" alt="Goal Animation" class="gif" />
+    </div>
     <div class="result">
       <h1>
-        <b>{{ matchInfomation.hostClubName }}</b>
-        {{ matchInfomation.hostTeamScore }}:{{ matchInfomation.guestTeamScore }}
-        {{ matchInfomation.guestClubName }}
+        <b>{{ matchInfomation?.hostClubName }}</b>
+        {{ hostScore }}:{{ guestScore }}
+        {{ matchInfomation?.guestClubName }}
       </h1>
-      <button mat-raised-button color="nav-button" routerLink="/results">
-        NAGRODY:<br />
-        <B
-          >$ {{ matchInfomation.collectedMoney > 0 ? "+" : ""
-          }}{{ matchInfomation.collectedMoney }} POINTS:
-          {{ matchInfomation.collectedPoints > 0 ? "+" : ""
-          }}{{ matchInfomation.collectedPoints }}</B
+
+      <h2>
+        ocena składu gospodarzy: <b>{{ matchInfomation?.hostSquadRating }}</b> |
+        ocena składu gości: <b>{{ matchInfomation?.guestSquadRating }}</b>
+      </h2>
+      <button mat-raised-button color="nav-button">
+        AKTUALNA LIGA: <B>{{ matchInfomation?.league }}</B>
+      </button>
+      <div *ngIf="isMatchFinished">
+        <button
+          mat-raised-button
+          color="punishment-button"
+          *ngIf="hostScore < guestScore"
         >
-      </button>
-      <button mat-raised-button color="nav-button" routerLink="/results">
-        AKTUALNA LIGA: <B>{{ matchInfomation.league }}</B>
-      </button>
+          KARA:<br />
+          <B
+            >$ {{ matchInfomation?.collectedMoney }} POINTS:
+            {{ matchInfomation?.collectedPoints }}</B
+          >
+        </button>
+        <button
+          mat-raised-button
+          color="nav-button"
+          *ngIf="hostScore >= guestScore"
+        >
+          NAGRODY:<br />
+          <B
+            >$ +{{ matchInfomation?.collectedMoney }} POINTS: +{{
+              matchInfomation?.collectedPoints
+            }}</B
+          >
+        </button>
+      </div>
     </div>
   </div>
 </div>

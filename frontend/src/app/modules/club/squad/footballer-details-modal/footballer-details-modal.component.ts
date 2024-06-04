@@ -9,6 +9,7 @@ import { error } from 'console';
 import { FootballerClub, Position } from '../../club.query';
 import { ClubService } from '../../club.service';
 import { FootballerChangePositionModalComponent } from '../footballer-change-position-modal/footballer-change-position-modal.component';
+import { SnackbarService } from '../../../../snackbar.service';
 
 @Component({
   selector: 'app-footballer-details-modal',
@@ -20,7 +21,8 @@ export class FootballerDetailsModalComponent {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { footballer: FootballerClub },
     private clubService: ClubService,
-    public dialogRef: MatDialogRef<FootballerDetailsModalComponent>
+    public dialogRef: MatDialogRef<FootballerDetailsModalComponent>,
+    private snackbarService: SnackbarService
   ) {}
 
   getFootballerPositionsString() {
@@ -33,8 +35,11 @@ export class FootballerDetailsModalComponent {
   sellFootballer() {
     this.clubService.sellFootballer(this.data.footballer).subscribe(
       (result) =>
-        alert(result.name + ' ' + result.surname + 'został sprzedany!'),
-      (error) => alert(error.error)
+        this.snackbarService.openSuccessSnackBar(
+          result.name + ' ' + result.surname + 'został sprzedany!'
+        ),
+
+      (error) => this.snackbarService.openWarnSnackBar(error.error)
     );
     this.dialogRef.close();
   }

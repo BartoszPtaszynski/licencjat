@@ -129,4 +129,9 @@ public class ApiClubController {
     public ResponseEntity<?> getResults(@RequestParam Long userId) {
         return ResponseEntity.ok(clubService.getResults(userId));
     }
+    @GetMapping("/allFootballersInSquad")
+    public ResponseEntity<?> areAllFootballersInSquad(@RequestParam Long userId) {
+        return ResponseEntity.ok(clubService.allFootballersInSquad(userId));
+    }
+
 }

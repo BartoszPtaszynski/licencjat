@@ -13,7 +13,6 @@ public class ClubInformationDto {
     private int rating;
     private int value;
     private int funds;
-    private String crest;
     private Map<String,Object> formation;
 
 

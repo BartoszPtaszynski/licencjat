@@ -6,6 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { FootballerClub, Formation } from '../../club.query';
 import { ClubService } from '../../club.service';
+import { SnackbarService } from '../../../../snackbar.service';
 
 @Component({
   selector: 'app-change-footballer-modal',
@@ -16,7 +17,8 @@ export class ChangeFootballerModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { formation: Formation },
     public dialogRef: MatDialogRef<ChangeFootballerModalComponent>,
-    private clubService: ClubService
+    private clubService: ClubService,
+    private snackbarService: SnackbarService
   ) {}
   selectedFormation: Formation;
   formations: Formation[];
@@ -38,7 +40,7 @@ export class ChangeFootballerModalComponent implements OnInit {
     this.clubService.changeFormation(this.data.formation.code).subscribe(
       (result) => {
         this.dialogRef.close();
-        alert('formation changed');
+        this.snackbarService.openSuccessSnackBar('formacja zmieniona');
       },
       (error) => console.log(error.error)
     );

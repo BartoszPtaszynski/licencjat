@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { error } from 'console';
 import { ClubService } from '../club.service';
 import { Footballer, Position } from '../club.query';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../../snackbar.service';
 
 class Filters {
   priceFrom: number;
@@ -25,7 +27,10 @@ class Filters {
   styleUrl: './transfer-market.component.css',
 })
 export class TransferMarketComponent implements OnInit {
-  constructor(public footballerService: ClubService) {}
+  constructor(
+    public footballerService: ClubService,
+    private snackbarService: SnackbarService
+  ) {}
 
   filters: Filters;
   footballers: Footballer[];
@@ -64,8 +69,19 @@ export class TransferMarketComponent implements OnInit {
 
   buyFootballer(id: number) {
     this.footballerService.buyFootballer(id).subscribe(
-      (result) => alert(result),
-      (error) => alert(error.error)
+      (result) => this.snackbarService.openSuccessSnackBar(result),
+      (error) => {
+        switch (error.error) {
+          case 'footballer already in club':
+            this.snackbarService.openWarnSnackBar(
+              'Posiadasz tego zawodnika w klubie!'
+            );
+            break;
+          case 'not enough money':
+            this.snackbarService.openWarnSnackBar('Masz za mało pieniędzy!');
+            break;
+        }
+      }
     );
   }
   ngOnInit(): void {
@@ -74,7 +90,7 @@ export class TransferMarketComponent implements OnInit {
 
     this.footballerService.getPositions().subscribe(
       (result) => (this.positions = result),
-      (error) => alert(error.error)
+      (error) => this.snackbarService.openWarnSnackBar(error.error)
     );
   }
 }
