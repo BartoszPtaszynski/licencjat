@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatchInformation } from '../club.query';
 import { ClubService } from '../club.service';
+import { SnackbarService } from '../../../snackbar.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-match',
@@ -8,9 +10,14 @@ import { ClubService } from '../club.service';
   styleUrl: './match.component.css',
 })
 export class MatchComponent implements OnInit {
-  constructor(private clubService: ClubService) {}
+  constructor(
+    private clubService: ClubService,
+    private snackbar: SnackbarService,
+    private loacation: Location
+  ) {}
   isFullSquad: boolean = true;
   matchInfomation: MatchInformation;
+  isLoading: boolean = true;
 
   ngOnInit(): void {
     if (this.isFullSquad) {
@@ -26,6 +33,19 @@ export class MatchComponent implements OnInit {
 
   isMatchFinished: boolean = false;
 
+  changeLeagueToast() {
+    if (this.matchInfomation?.newLeague < this.matchInfomation?.league) {
+      this.snackbar.openSuccessSnackBar(
+        'Gratulacje, Awansujesz do wyższej ligi:' +
+          this.matchInfomation?.newLeague
+      );
+    } else if (this.matchInfomation?.newLeague > this.matchInfomation?.league) {
+      this.snackbar.openWarnSnackBar(
+        'Niestety, spadasz do niższej ligi:' + this.matchInfomation?.newLeague
+      );
+    }
+  }
+
   playMatch() {
     this.clubService.playMatch().subscribe(
       (result) => {
@@ -36,13 +56,23 @@ export class MatchComponent implements OnInit {
         for (let i = 0; i < this.matchInfomation.guestTeamScore; i++) {
           this.randomMinutesOfGuestGoals.push(this.generateRandomNumber());
         }
+        this.isLoading = false;
       },
-      (error) => console.log(error.error)
+      (error) => {
+        this.loacation.back();
+        if (error.error === 'club with this league not found') {
+          this.snackbar.openWarnSnackBar(
+            'nie znaleziono aktualnie przeciwnika z pełnym składem w tej lidze. Musisz chwilę poczekać'
+          );
+        } else {
+          console.log(error);
+        }
+      }
     );
   }
 
   generateRandomNumber(): number {
-    return Math.floor(Math.random() * 90);
+    return Math.floor(Math.random() * 89);
   }
 
   showAnimation: boolean = false;
@@ -54,7 +84,7 @@ export class MatchComponent implements OnInit {
 
   minCounter: number = 0;
   startTimer() {
-    setInterval(() => {
+    const interval = setInterval(() => {
       if (this.minCounter < 90) {
         if (this.randomMinutesOfHostGoals.includes(this.minCounter)) {
           this.hostScore++;
@@ -67,7 +97,9 @@ export class MatchComponent implements OnInit {
         this.minCounter++;
       } else {
         this.isMatchFinished = true;
+        clearInterval(interval);
+        this.changeLeagueToast();
       }
-    }, 100);
+    }, 200);
   }
 }

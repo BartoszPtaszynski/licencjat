@@ -25,3 +25,31 @@
   font-size: 70px;
   padding-bottom: 5%;
 }
+p {
+  font-size: 17px;
+}
+.rules {
+  height: 45vh;
+  overflow-y: auto;
+}
+.small-table {
+  width: 100px;
+  table-layout: auto;
+}
+
+.custom-table {
+  width: auto;
+  table-layout: auto;
+}
+
+.custom-header-cell {
+  padding: 8px;
+  text-align: center;
+  width: 50px;
+}
+
+.custom-cell {
+  padding: 8px;
+  text-align: center;
+  width: 50px;
+}

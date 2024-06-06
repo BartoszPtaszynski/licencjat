@@ -58,22 +58,16 @@ export class SquadComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.loadFootballers();
       this.loadClubInformation();
-
-      console.log('The dialog was closed');
     });
   }
 
   loadFootballers() {
+    this.loadingData = true;
     this.clubService.getClubFootballers().subscribe(
       (result) => {
-        // timer(3000).subscribe(() => {
-        //   // Tutaj możesz umieścić kod, który ma zostać wykonany po opóźnieniu
-
         this.footballers = result;
-        // this.addEmptyFootballers();
 
         this.loadingData = false;
-        // });
       },
       (error) => console.log(error)
     );

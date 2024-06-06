@@ -5,6 +5,8 @@ import { FriendInfo } from './friends.query';
 import { FriendsService } from './friends.service';
 import { AuthService } from '../auth/auth.service';
 import { Location } from '@angular/common';
+import { SnackbarService } from '../../snackbar.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-friends',
@@ -14,16 +16,19 @@ import { Location } from '@angular/common';
 export class FriendsComponent implements OnInit {
   friendsData: FriendInfo[];
 
+  isLoading: boolean = true;
   constructor(
     public dialog: MatDialog,
     private friendsService: FriendsService,
     private location: Location,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: SnackbarService
   ) {}
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.loadFriends();
+      this.isLoading = false;
     }
   }
 
@@ -34,12 +39,14 @@ export class FriendsComponent implements OnInit {
     'results',
     'league',
     'clubRating',
+    'delete',
   ];
 
   loadFriends() {
     this.friendsService.getFriendsInfo().subscribe(
       (result) => {
         this.friendsData = result;
+        this.isLoading = false;
       },
       (error) => {}
     );
@@ -47,13 +54,15 @@ export class FriendsComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddFriendModalComponent, {
       panelClass: 'custom-dialog',
-      data: { name: 'this.player.username', animal: 'this.animal' },
+      data: { name: 'this.player.username' },
     });
 
     dialogRef.afterClosed().subscribe(() => {
+      this.isLoading = true;
       this.friendsService.getFriendsInfo().subscribe(
         (result) => {
           this.friendsData = result;
+          this.isLoading = false;
         },
         (error) => {}
       );
@@ -63,5 +72,17 @@ export class FriendsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  removeFriend(i: number) {
+    this.friendsService.deleteFriend(this.friendsData[i].id).subscribe(
+      (result) => {
+        this.loadFriends();
+        this.snackBar.openSuccessSnackBar(
+          'Usunięto ze znajomych gracza ' + result + '!'
+        );
+      },
+      (error) => this.snackBar.openWarnSnackBar(error.error)
+    );
   }
 }

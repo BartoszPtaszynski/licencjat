@@ -10,10 +10,171 @@
     </button>
 
     <h1 class="heading">O APLIKACJI</h1>
-    <!-- Tutaj umieszczaj treść, jeśli jest potrzebna -->
 
-    <div>
-      <h2>tekst przedstawiający zasady aplikacji</h2>
+    <div class="rules">
+      <h2>Ogólne zasady gry:</h2>
+      <p>
+        Aplikacja „football club career” to strona internetowa, w której
+        użytkownik może utworzyć swój profil poprzez rejestracje oraz
+        zalogowanie. Po zalogowaniu do aplikacji, użytkownicy mają możliwość
+        dostępu do swojego klubu piłkarskiego lub w przypadku braku istniejącego
+        klubu, mogą stworzyć nowy. Każdy klub ma swój skład zawodników, który
+        można zmieniać i rozbudowywać. Początkowo każdy klub znajduje się w 5
+        lidze. Celem gry jest dotarcie do 1 ligi oraz ulepszanie swojego składu
+        o coraz lepszych piłkarzy, dostępnych na rynku transferowym. Aby zarobić
+        pieniądze i dostawać punkty, zbliżające klub do wyższej ligi należy
+        symulować mecze ligowe, gdzie użytkownik rozgrywa mecz z klubem innego
+        użytkownika z tej samej ligi. Za zwycięstwo użytkownik otrzymuje
+        fundusze, które może przeznaczyć na zakup nowych piłkarzy oraz punkty,
+        które przybliżają go do awansu do wyższej ligi. Wartość tych nagród
+        zależy od poziomu ligowego, w którym znajduje się klub. Za porażkę klub
+        traci punkty oraz te pieniądze. Dodatkowo, każdy użytkownik może dodać
+        innych użytkowników jako swoich znajomych. Wtedy może zobaczyć klub
+        każdego znajomego, jego ostatnie wyniki oraz zagrać z nim mecz
+        towarzyski, aczkolwiek nie daje to żadnych punktów ani pieniędzy.
+      </p>
+      <h2>Zasady dotyczące składu:</h2>
+      <p>
+        Po stworzeniu klubu przez użytkownika, dostępny będzie skład w wybranej
+        formacji z losowymi zawodnikami na odpowiednich pozycjach. Ci zawodnicy
+        zostaną wybrani losowo z bazy danych, a ich ocena ogólna nie przekroczy
+        10. Każdy zawodnik ma ocenę ogólną od 1 do 50. Im wyższa ta ocena, tym
+        lepszy zawodnik. Piłkarz ma również określone pozycje, na których może
+        grać. Zawodnik może mieć pozycję więcej niż jedną. Do składu na
+        określoną pozycje można przypisać piłkarza który jest zdolny do gry na
+        określonej pozycji. Użytkownik może zmieniać formacje zawodników ale Ci
+        zawodnicy, co nie będą mogli występować na danej pozycji zostaną
+        usunięci ze składu i umieszczeni na ławce rezerwowych. Aby rozegrać mecz
+        należy mieć 11 piłkarzy obsadzonych na odpowiednich pozycjach. Ocena
+        ogólna klubu jest to średnia arytmetyczna obliczona na podstawie każdego
+        zawodnika w składzie. Zawodników można kupić w zakładce rynek
+        transferowy, każdy zawodnik kosztuje określoną kwotę i po zakupie można
+        przyporządkować go do swojej drużyny.
+      </p>
+      <h2>Zasady dotyczące rozgrywania meczów oraz awansu do wyższych lig</h2>
+      <p>
+        Aby zdobywać punkty dające awans do wyższej ligi oraz pieniądze
+        potrzebne do kupowania piłkarzy, należy symulować mecze. Rozgrywka
+        polega na wyszukaniu z bazy danych innego klubu występującego w tej
+        samej lidze i na podstawie prawdopodobieństwa obliczonego na podstawie
+        oceny ogólnej składów losowany jest zwycięzca lub remis. Za wygraną w
+        meczu użytkownik dostaje punkty przybliżające go do wyższej ligi oraz
+        pieniądze, a za przegraną je traci. W przypadku jeśli użytkownik miałby
+        stracić więcej pieniędzy niż posiada, jego saldo się zeruje.<br />
+      </p>
+      <p>
+        <B
+          >Poniżej tabelka pokazuje ilość zdobytych/straconych punktów oraz
+          pieniędzy podczas meczu w zależności od ligi, w której znajduje się
+          użytkownik:</B
+        >
+      </p>
+
+      <br />
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Liga Column -->
+        <ng-container matColumnDef="liga">
+          <th mat-header-cell *matHeaderCellDef>Liga</th>
+          <td mat-cell *matCellDef="let element">{{ element.liga }}</td>
+        </ng-container>
+
+        <!-- Wygrana Punkty Ligowe Column -->
+        <ng-container matColumnDef="wygranaPunktyLigowe">
+          <th mat-header-cell *matHeaderCellDef>Wygrana <br />Punkty Ligowe</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.wygranaPunktyLigowe }}
+          </td>
+        </ng-container>
+
+        <!-- Wygrana Zyskane Pieniadze Column -->
+        <ng-container matColumnDef="wygranaZyskanePieniadze">
+          <th mat-header-cell *matHeaderCellDef>
+            Wygrana <br />Zyskane Pieniądze
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.wygranaZyskanePieniadze }}
+          </td>
+        </ng-container>
+
+        <!-- Przegrana Punkty Ligowe Column -->
+        <ng-container matColumnDef="przegranaPunktyLigowe">
+          <th mat-header-cell *matHeaderCellDef>
+            Przegrana <br />Punkty Ligowe
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.przegranaPunktyLigowe }}
+          </td>
+        </ng-container>
+
+        <!-- Przegrana Stracone Pieniadze Column -->
+        <ng-container matColumnDef="przegranaStraconePieniadze">
+          <th mat-header-cell *matHeaderCellDef>
+            Przegrana<br />
+            Stracone Pieniądze
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.przegranaStraconePieniadze }}
+          </td>
+        </ng-container>
+
+        <!-- Remis Punkty Ligowe Column -->
+        <ng-container matColumnDef="remisPunktyLigowe">
+          <th mat-header-cell *matHeaderCellDef>Remis <br />Punkty Ligowe</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.remisPunktyLigowe }}
+          </td>
+        </ng-container>
+
+        <!-- Remis Zyskane Pieniadze Column -->
+        <ng-container matColumnDef="remisZyskanePieniadze">
+          <th mat-header-cell *matHeaderCellDef>
+            Remis<br />
+            Zyskane Pieniądze
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.remisZyskanePieniadze }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <p>
+        <br />
+        <B
+          >Aby awansować do wyższej ligi należy zdobyć określoną liczbę punktów.
+          Poniżej tabelka przedstawia ilość punktów definiująca klub w
+          odpowiedniej lidze:</B
+        >
+      </p>
+
+      <table
+        mat-table
+        [dataSource]="dataSourcePoints"
+        class="mat-elevation-z8 custom-table"
+      >
+        <ng-container matColumnDef="league">
+          <th mat-header-cell *matHeaderCellDef class="custom-header-cell">
+            Liga
+          </th>
+          <td mat-cell *matCellDef="let element" class="custom-cell">
+            {{ element.league }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pointsRange">
+          <th mat-header-cell *matHeaderCellDef class="custom-header-cell">
+            Przedział punktów
+          </th>
+          <td mat-cell *matCellDef="let element" class="custom-cell">
+            {{ element.pointsRange }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsPoints"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsPoints"></tr>
+      </table>
     </div>
   </div>
 </div>

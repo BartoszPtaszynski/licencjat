@@ -32,13 +32,15 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
+  isDisabled(): boolean {
+    return (
+      this.passwordIdentical() &&
+      this.registrationReq.email?.length > 0 &&
+      this.registrationReq.username?.length > 0 &&
+      this.registrationReq.password?.length > 0
+    );
+  }
   onSubmit() {
-    // if(this.registrationReq.password !== this.registrationReq.passwordRepeat) {
-    //   this.errorSignUp.status=true;
-    //   this.errorSignUp.message='hasła nie są identyczne!';
-    //   return;
-    // }
-
     this._authService.register(this.registrationReq);
   }
 

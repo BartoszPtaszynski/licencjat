@@ -15,6 +15,7 @@ import { Player } from './auth.context';
 import { RegistrationCommand } from './registration/registration.command';
 import { LoginComponent } from './login/login.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../snackbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class AuthService implements CanActivate {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: SnackbarService
   ) {}
 
   login(command: LoginCommand): boolean {
@@ -61,25 +62,23 @@ export class AuthService implements CanActivate {
           localStorage.setItem('loginID', response);
           this.router.navigate(['/']);
           setTimeout(() => {
-            this.openSuccessSnackBar('zarejestrowano!');
+            this._snackBar.openSuccessSnackBar('zarejestrowano!');
           }, 500);
         },
         (error) => {
           switch (error.error) {
             case 'username exists':
-              console.log('username!!!');
+              this._snackBar.openWarnSnackBar(
+                'użytkownik o wybranej nazwie już istnieje!'
+              );
               break;
             case 'email exists':
-              console.log('emaill');
+              this._snackBar.openWarnSnackBar(
+                'użytkownik o wybranym emailu już istnieje!'
+              );
           }
         }
       );
-  }
-
-  openSuccessSnackBar(message: string) {
-    this._snackBar.open(message, '', {
-      panelClass: ['success-snackbar'],
-    });
   }
 
   logout() {

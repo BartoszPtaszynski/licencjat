@@ -30,3 +30,7 @@
   font-size: 100px;
   padding-bottom: 5%;
 }
+.table {
+  height: 400px;
+  overflow-y: auto;
+}

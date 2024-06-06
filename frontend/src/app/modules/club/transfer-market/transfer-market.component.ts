@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { error } from 'console';
 import { ClubService } from '../club.service';
-import { Footballer, Position } from '../club.query';
+import { ClubInformation, Footballer, Position } from '../club.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../../snackbar.service';
+import { AuthService } from '../../auth/auth.service';
 
 class Filters {
   priceFrom: number;
@@ -29,12 +30,15 @@ class Filters {
 export class TransferMarketComponent implements OnInit {
   constructor(
     public footballerService: ClubService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private clubService: ClubService,
+    private authService: AuthService
   ) {}
 
   filters: Filters;
   footballers: Footballer[];
   positions: Position[];
+  clubInfo: ClubInformation;
 
   loadFootballers() {
     this.footballerService
@@ -48,9 +52,16 @@ export class TransferMarketComponent implements OnInit {
       .subscribe(
         (result) => {
           this.footballers = result;
+          if (this.footballers?.length === 0) {
+            this.snackbarService.openWarnSnackBar(
+              'nie ma zawodników z wybranymi filtrami'
+            );
+          }
         },
         (error) => {
-          alert('unable to load footballers');
+          this.snackbarService.openWarnSnackBar(
+            'problem z załadowaniem zawodników'
+          );
         }
       );
   }
@@ -69,7 +80,10 @@ export class TransferMarketComponent implements OnInit {
 
   buyFootballer(id: number) {
     this.footballerService.buyFootballer(id).subscribe(
-      (result) => this.snackbarService.openSuccessSnackBar(result),
+      (result) =>
+        this.snackbarService.openSuccessSnackBar(
+          'Zawodnik wysłany na ławkę rezerwowych!'
+        ),
       (error) => {
         switch (error.error) {
           case 'footballer already in club':
@@ -85,6 +99,11 @@ export class TransferMarketComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.clubService
+        .getClubInformation()
+        .subscribe((result) => (this.clubInfo = result));
+    }
     this.filters = new Filters();
     this.loadFootballers();
 

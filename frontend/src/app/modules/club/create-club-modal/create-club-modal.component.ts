@@ -41,12 +41,9 @@ export class CreateClubModalComponent {
     this._clubService.getFormations().subscribe(
       (result) => {
         this.formations = result;
-        this.formations.forEach((element) => {
-          console.log(element.code);
-        });
       },
       (error) => {
-        this.snackbarService.openWarnSnackBar('Unable to load formations');
+        this.snackbarService.openWarnSnackBar('Nie można aktualnie pobrać formacji');
       }
     );
   }

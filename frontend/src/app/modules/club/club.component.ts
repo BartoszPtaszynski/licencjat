@@ -36,10 +36,6 @@ export class ClubComponent implements OnInit {
     }
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
   playMatch() {
     this.clubService.areAllFootballersInSquad().subscribe((result) => {
       if (result === true) {

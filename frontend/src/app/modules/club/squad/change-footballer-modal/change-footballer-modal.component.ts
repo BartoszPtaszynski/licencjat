@@ -29,7 +29,7 @@ export class ChangeFootballerModalComponent implements OnInit {
         this.formations = result;
       },
       (error) => {
-        alert('Unable to load formations');
+        this.snackbarService.openWarnSnackBar('Nie można załadować formacji');
       }
     );
 

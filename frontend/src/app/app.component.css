@@ -60,8 +60,3 @@
   align-items: center;
   width: 300px;
 }
-
-::ng-deep .greenSnackbar {
-  background: rgb(65, 252, 134);
-  color: white;
-}

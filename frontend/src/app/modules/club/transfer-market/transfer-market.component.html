@@ -52,7 +52,9 @@
       </div>
 
       <div class="info">
-        <h1>SALDO KLUBU: <b>445000</b></h1>
+        <h1>
+          SALDO KLUBU: <b>{{ clubInfo?.funds }}</b>
+        </h1>
 
         <div class="filters">
           Filtruj:
@@ -106,7 +108,7 @@
               <mat-select required [(ngModel)]="filters.position">
                 <mat-option
                   *ngFor="let position of positions"
-                  [value]="position"
+                  [value]="position.id"
                   >{{ position.nameOfPosition }}</mat-option
                 >
               </mat-select>

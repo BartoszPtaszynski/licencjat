@@ -18,25 +18,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Formation } from '../../club/club.query';
 import { ClubService } from '../../club/club.service';
 import { FriendsService } from '../friends.service';
-
-export interface PeriodicElement {
-  username: string;
-  nazwaKlubu: string;
-  email: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    username: 'Jan',
-    nazwaKlubu: 'klub1',
-    email: 'jan@gmail.com',
-  },
-  {
-    username: 'test2',
-    nazwaKlubu: 'test',
-    email: 'testtest@gmail.com',
-  },
-];
+import { SnackbarService } from '../../../snackbar.service';
 
 @Component({
   selector: 'app-add-friend-modal',
@@ -48,6 +30,7 @@ export class AddFriendModalComponent {
     private _clubService: ClubService,
     private _friendService: FriendsService,
     public dialogRef: MatDialogRef<AddFriendModalComponent>,
+    private snackbar: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
@@ -66,16 +49,21 @@ export class AddFriendModalComponent {
   getResults() {
     this._friendService
       .getFriendsResults(this.searchType, this.pattern)
-      .subscribe(
-        (result) => {
-          this.friendResults = result;
-        },
-        (error) => {}
-      );
+      .subscribe((result) => {
+        this.friendResults = result;
+      });
   }
 
   addFriend() {
-    this._friendService.addFriend(this.selectedRow?.id);
+    this._friendService.addFriend(this.selectedRow?.id).subscribe(
+      (response) => {
+        this.snackbar.openSuccessSnackBar('dodano gracza do znajomych!');
+      },
+      (error) => {
+        if (error.error == 'players already are friends')
+          this.snackbar.openWarnSnackBar('gracz już jest w znajomych!');
+      }
+    );
     this.dialogRef.close();
   }
 

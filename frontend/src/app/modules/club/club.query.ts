@@ -71,4 +71,5 @@ export interface MatchInformation {
   league: number;
   collectedMoney: number;
   collectedPoints: number;
+  newLeague: number;
 }

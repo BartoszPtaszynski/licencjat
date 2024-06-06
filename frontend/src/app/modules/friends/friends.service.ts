@@ -25,20 +25,20 @@ export class FriendsService {
   }
 
   addFriend(id: number) {
-    this.http
-      .post(
-        `http://localhost:8080/player/addFriend?id1=${this.authService.getLoginId()}&id2=${id}`,
-        {
-          responseType: 'text',
-        }
-      )
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    return this.http.post(
+      `http://localhost:8080/player/addFriend?id1=${this.authService.getLoginId()}&id2=${id}`,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+
+  deleteFriend(id: number) {
+    return this.http.delete(
+      `http://localhost:8080/player/deleteFriend?id1=${this.authService.getLoginId()}&id2=${id}`,
+      {
+        responseType: 'text',
+      }
+    );
   }
 }
