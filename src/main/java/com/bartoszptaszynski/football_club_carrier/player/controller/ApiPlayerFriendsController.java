@@ -4,6 +4,10 @@ import com.bartoszptaszynski.football_club_carrier.club.repository.ClubFootballe
 import com.bartoszptaszynski.football_club_carrier.club.repository.ClubRepository;
 import com.bartoszptaszynski.football_club_carrier.club.repository.MatchRepository;
 import com.bartoszptaszynski.football_club_carrier.player.PlayerService;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.FriendExistsException;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.FriendNotExistsException;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserNotFoundException;
+import com.bartoszptaszynski.football_club_carrier.player.model.entity.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +28,19 @@ public class ApiPlayerFriendsController {
         try {
             playerService.addFriend(id1,id2);
             return new ResponseEntity<>((id2+" " + id2+ " are friends now"), HttpStatus.OK);
-        }catch ( IllegalArgumentException e) {
+        }catch (UserNotFoundException | FriendExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
+    }
+    @DeleteMapping("/deleteFriend")
+    public ResponseEntity<String> deleteFriend(@RequestParam Long id1, Long id2) {
+        try {
+            return new ResponseEntity<>( playerService.deleteFriend(id1,id2).getUsername(), HttpStatus.OK);
+        }catch (UserNotFoundException | FriendNotExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/getFriendsInfo")

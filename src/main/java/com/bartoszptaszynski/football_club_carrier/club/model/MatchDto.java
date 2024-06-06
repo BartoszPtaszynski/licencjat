@@ -16,4 +16,5 @@ public class MatchDto {
     private int league;
     private int collectedMoney;
     private int collectedPoints;
+    private int newLeague;
 }

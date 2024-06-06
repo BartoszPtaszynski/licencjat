@@ -120,7 +120,7 @@ public class ApiClubController {
         try {
 
             return ResponseEntity.ok(clubService.playMatch(userId));
-        }catch (UserNotFoundException|ClubNotFoundException e) {
+        }catch (UserNotFoundException | ClubNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }

@@ -3,6 +3,8 @@ package com.bartoszptaszynski.football_club_carrier.player;
 
 import com.bartoszptaszynski.football_club_carrier.club.repository.ClubFootballersRepository;
 import com.bartoszptaszynski.football_club_carrier.club.repository.MatchRepository;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.FriendExistsException;
+import com.bartoszptaszynski.football_club_carrier.player.exceptions.FriendNotExistsException;
 import com.bartoszptaszynski.football_club_carrier.player.model.command.PlayerLoginCommand;
 import com.bartoszptaszynski.football_club_carrier.player.model.command.PlayerRegistrationCommand;
 import com.bartoszptaszynski.football_club_carrier.player.exceptions.UserExistsException;
@@ -90,9 +92,24 @@ public class PlayerService {
     }
 
 
+    public Player deleteFriend(Long id1,Long id2) {
+        Player player1=playerRepository.findPlayerById(id1).orElseThrow( () -> new UserNotFoundException("user with id "+id1+" not found"));
+        Player player2=playerRepository.findPlayerById(id2).orElseThrow( () -> new UserNotFoundException("user with id "+id2+" not found"));
+
+        if(!player1.getPlayerFriends().contains(player2) ) throw new FriendNotExistsException();
+
+        player1.deleteFriend(player2);
+        player2.deleteFriend(player1);
+        playerRepository.saveAll(List.of(player1,player2));
+        return player2;
+    }
+
     public String addFriend(Long id1,Long id2) {
         Player player1=playerRepository.findPlayerById(id1).orElseThrow( () -> new UserNotFoundException("user with id "+id1+" not found"));
         Player player2=playerRepository.findPlayerById(id2).orElseThrow( () -> new UserNotFoundException("user with id "+id2+" not found"));
+
+
+        if(player1.getPlayerFriends().contains(player2) ) throw new FriendExistsException();
 
         player1.addFriend(player2);
         player2.addFriend(player1);

@@ -49,5 +49,16 @@ public class Player {
         }
         playerFriends.add(player2);
     }
+
+    public Player deleteFriend(Player player2) {
+        if(this == player2 ) {
+            throw new IllegalArgumentException("impossible to add own account to friends list");
+        }
+        else if (!playerFriends.contains(player2)) {
+            throw new IllegalArgumentException(id + " has not  "+player2.getId()+" in friendList");
+        }
+        playerFriends.remove(player2);
+        return player2;
+    }
 }
 

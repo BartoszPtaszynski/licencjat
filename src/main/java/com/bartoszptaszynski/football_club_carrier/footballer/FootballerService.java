@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,7 @@ public class FootballerService {
                        .value(footballer.getValue())
                        .positions(footballer.getFootballerPositions().stream()
                                .map(Position::getShortcut)
+                               .filter(shortcut-> !Objects.equals(shortcut, "R"))
                                .collect(Collectors.joining(", ")))
                        .build()).collect(Collectors.toList());
     }

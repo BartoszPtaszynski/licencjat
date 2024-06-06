@@ -26,10 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -220,14 +217,18 @@ public class ClubService {
                     }
                 }
         );
-        ArrayList<ClubFootballers> availableFootballers = new ArrayList(clubFootballers.stream().filter(footballer->footballer.getPosition().equals(reserve)).toList());
+        List<ClubFootballers> availableFootballers = new ArrayList<>(clubFootballers.stream().filter(footballer -> footballer.getPosition().equals(reserve)).toList());
 
-        positions.forEach(position -> {
-            availableFootballers.stream()
+        for(Position position: positions) {
+            Optional<ClubFootballers> matchingFootballer =    availableFootballers.stream()
                     .filter(footballer -> footballer.getFootballer().getFootballerPositions().contains(position))
-                    .findFirst()
-                    .ifPresent(footballer -> footballer.setPosition(position));
-        });
+                    .findFirst();
+            if(matchingFootballer.isPresent()) {
+               ClubFootballers footballer =  matchingFootballer.get();
+                footballer.setPosition(position);
+                availableFootballers.remove(footballer);
+            }
+        }
 
         club.setFormation(formationEnum);
         clubRepository.save(club);
@@ -239,6 +240,12 @@ public class ClubService {
         Club hostClub = player.getClub();
         int league = hostClub.getLeague();
         Club guestClub = clubRepository.findClubInTheSameLeagueWithElevenFootballers(hostClub.getLeague(),hostClub.getId());
+        if(guestClub == null) {
+            throw new ClubNotFoundException("this league");
+        }
+
+
+        log.warn(guestClub.getName());
 
         int hostRating=clubFootballersRepository.getRatingOfSquad(hostClub.getId());
         int guestRating=clubFootballersRepository.getRatingOfSquad(guestClub.getId());
@@ -285,6 +292,8 @@ public class ClubService {
             guestScore=random.nextInt(5)+1;
             hostScore=guestScore;
         }
+        clubRepository.save(hostClub);
+        clubRepository.save(guestClub);
 
         MatchDto matchInfo=MatchDto.builder()
                 .hostTeamScore(hostScore)
@@ -296,10 +305,10 @@ public class ClubService {
                 .collectedPoints(hostCollectedPoints)
                 .collectedMoney(hostCollectedMoney)
                 .league(league)
+                .newLeague(hostClub.getLeague())
                 .build();
 
-        clubRepository.save(hostClub);
-        clubRepository.save(guestClub);
+
         Match match=new Match(hostScore,guestScore,hostClub,guestClub,league,hostCollectedMoney,guestCollectedMoney,hostRating,guestRating,hostCollectedPoints,guestCollectedPoints);
         matchRepository.save(match);
 
