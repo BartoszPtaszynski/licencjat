@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangeFootballerModalComponent } from './change-footballer-modal.component';
+import { ChangeFormationModalComponent } from './change-formation-modal.component';
 
 describe('ChangeFootballerModalComponent', () => {
-  let component: ChangeFootballerModalComponent;
-  let fixture: ComponentFixture<ChangeFootballerModalComponent>;
+  let component: ChangeFormationModalComponent;
+  let fixture: ComponentFixture<ChangeFormationModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChangeFootballerModalComponent],
+      declarations: [ChangeFormationModalComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ChangeFootballerModalComponent);
+    fixture = TestBed.createComponent(ChangeFormationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

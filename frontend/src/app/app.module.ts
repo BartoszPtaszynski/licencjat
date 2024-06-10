@@ -39,7 +39,7 @@ import { FootballerDetailsModalComponent } from './modules/club/squad/footballer
 import { ClubComponent } from './modules/club/club.component';
 import { MatchComponent } from './modules/club/match/match.component';
 import { ResultsComponent } from './modules/club/results/results.component';
-import { ChangeFootballerModalComponent } from './modules/club/squad/change-footballer-modal/change-footballer-modal.component';
+import { ChangeFormationModalComponent } from './modules/club/squad/change-formation-modal/change-formation-modal.component';
 import { MatTableModule } from '@angular/material/table';
 import { AboutAppComponent } from './modules/about-app/about-app.component';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -63,7 +63,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ClubComponent,
     MatchComponent,
     ResultsComponent,
-    ChangeFootballerModalComponent,
+    ChangeFormationModalComponent,
     AboutAppComponent,
     FootballerChangePositionModalComponent,
   ],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangeFootballerModalComponent } from './change-footballer-modal/change-footballer-modal.component';
+import { ChangeFootballerModalComponent } from './change-formation-modal/change-formation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FootballerDetailsModalComponent } from './footballer-details-modal/footballer-details-modal.component';
 

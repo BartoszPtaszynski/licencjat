@@ -13,10 +13,10 @@ import { SnackbarService } from '../../../../snackbar.service';
   templateUrl: './change-footballer-modal.component.html',
   styleUrl: './change-footballer-modal.component.css',
 })
-export class ChangeFootballerModalComponent implements OnInit {
+export class ChangeFormationModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { formation: Formation },
-    public dialogRef: MatDialogRef<ChangeFootballerModalComponent>,
+    public dialogRef: MatDialogRef<ChangeFormationModalComponent>,
     private clubService: ClubService,
     private snackbarService: SnackbarService
   ) {}
