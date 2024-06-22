@@ -21,7 +21,8 @@ public class ApiFootballerController {
 
 
     @GetMapping()
-    public List<FootballerDto> getFilteredFootballers(@RequestParam int priceFrom,int priceTo,int ratingForm, int ratingTo, Long positionId ) {
+    public List<FootballerDto> getFilteredFootballers(@RequestParam int priceFrom,int priceTo,int ratingForm,
+                                                      int ratingTo, Long positionId ) {
         return footballerService.getFilteredFootballers(  priceFrom, priceTo, ratingForm,  ratingTo,  positionId);
     }
     @GetMapping("/positions")

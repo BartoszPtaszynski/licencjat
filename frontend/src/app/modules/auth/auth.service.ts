@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginCommand } from './login/login.command';
+import { LoginCommand } from './login/login.query';
 import { Observable, catchError, map } from 'rxjs';
 import {
   ActivatedRouteSnapshot,
@@ -11,8 +11,8 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Player } from './auth.context';
-import { RegistrationCommand } from './registration/registration.command';
+import { Player } from './auth.query';
+import { RegistrationCommand } from './registration/registration.query';
 import { LoginComponent } from './login/login.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../snackbar.service';
@@ -35,20 +35,19 @@ export class AuthService implements CanActivate {
       .post('http://localhost:8080/api/authenticate', command, {
         responseType: 'text',
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           localStorage.setItem('loginID', response);
 
           this.router.navigate(['/']);
-          console.log(this.isAuthenticated() + 'xD');
           message = true;
           console.log('login', response);
         },
-        (error: string) => {
+        error: (error: string) => {
           console.log('Login failed', error);
           message = false;
-        }
-      );
+        },
+      });
     return message;
   }
 
@@ -57,15 +56,15 @@ export class AuthService implements CanActivate {
       .post('http://localhost:8080/api/authenticate/register', command, {
         responseType: 'text',
       })
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           localStorage.setItem('loginID', response);
           this.router.navigate(['/']);
           setTimeout(() => {
             this._snackBar.openSuccessSnackBar('zarejestrowano!');
           }, 500);
         },
-        (error) => {
+        error: (error) => {
           switch (error.error) {
             case 'username exists':
               this._snackBar.openWarnSnackBar(
@@ -77,13 +76,12 @@ export class AuthService implements CanActivate {
                 'użytkownik o wybranym emailu już istnieje!'
               );
           }
-        }
-      );
+        },
+      });
   }
 
   logout() {
     localStorage.removeItem('loginID');
-    console.log(this.isAuthenticated() + 'xD');
     this.router.navigate(['/']);
   }
 
@@ -93,6 +91,11 @@ export class AuthService implements CanActivate {
     }
     return null;
   }
+
+  isAuthenticated(): boolean {
+    return !!this.getLoginId();
+  }
+
   getUser(): Observable<Player | null> {
     if (this.getLoginId() == null) {
       return null;
@@ -101,15 +104,6 @@ export class AuthService implements CanActivate {
       .get(`${this.apiUrl}/player/${this.getLoginId()}`)
       .pipe(map((value: any) => Object.assign(new Player(), value)));
   }
-
-  isAuthenticated(): boolean {
-    return !!this.getLoginId();
-  }
-
-  getText(): Observable<String> {
-    return this.http.get(`${this.apiUrl}/xD`, { responseType: 'text' });
-  }
-
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

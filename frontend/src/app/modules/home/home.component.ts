@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { error } from 'console';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Player } from '../auth/auth.context';
+import { Player } from '../auth/auth.query';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Inject } from '@angular/core';
 import {
@@ -32,19 +32,16 @@ export interface DialogData {
 })
 export class HomeComponent implements OnInit {
   player: Player | null;
-  animal: string;
-  name: string;
 
   constructor(public authService: AuthService, public dialog: MatDialog) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateClubModalComponent, {
-      data: { name: this.player.username, animal: this.animal },
+      data: { name: this.player.username },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      this.animal = result;
     });
   }
 

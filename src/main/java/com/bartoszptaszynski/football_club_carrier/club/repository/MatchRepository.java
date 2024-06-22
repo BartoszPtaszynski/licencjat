@@ -18,13 +18,15 @@ public interface MatchRepository extends JpaRepository<Match,Long> {
     public List<Match> getLast5Matches(@Param("id") Long id);
     @Query("SELECT " +
             "CASE " +
-            "when ((match.guestClub.id = :id and match.guestTeamScore > match.hostTeamScore) or (match.hostClub.id = :id and match.hostTeamScore > match.guestTeamScore)) then 'W'" +
-            "when ((match.guestClub.id = :id and match.guestTeamScore < match.hostTeamScore) or (match.hostClub.id = :id and match.hostTeamScore < match.guestTeamScore)) then 'L' " +
+            "when ((match.guestClub.id = :id and match.guestTeamScore > match.hostTeamScore) " +
+            "or (match.hostClub.id = :id and match.hostTeamScore > match.guestTeamScore)) then 'W'" +
+            "when ((match.guestClub.id = :id and match.guestTeamScore < match.hostTeamScore) " +
+            "or (match.hostClub.id = :id and match.hostTeamScore < match.guestTeamScore)) then 'L' " +
             "ELSE 'D'" +
             "end " +
             "from matches  match " +
             "where match.hostClub.id = :id OR match.guestClub.id = :id  order by match.id desc limit 5 ")
-    public List<String> getLastMatches(@Param("id") Long id);
+     List<String> getLastMatches(@Param("id") Long id);
 
     @Query("select match " +
             "from matches  match where match.hostClub.id= :clubId or match.guestClub.id=:clubId " +

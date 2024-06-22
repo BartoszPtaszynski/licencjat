@@ -22,11 +22,11 @@ public class ApiClubController {
     public ResponseEntity<?> addClub(@RequestBody ClubCommand command,@PathVariable Long playerId) {
         try {
             clubService.addClub(command, playerId);
+            return new ResponseEntity<>("created", HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("created", HttpStatus.CREATED);
     }
 
     @GetMapping("/allFootballers")
@@ -104,7 +104,6 @@ public class ApiClubController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
-
     @PutMapping("/changeFormation")
     public ResponseEntity<?> changeFootballers(@RequestParam FormationEnum formation, Long userId) {
         try {
@@ -118,7 +117,6 @@ public class ApiClubController {
     @PostMapping("/playMatch")
     public ResponseEntity<?> playMatch(@RequestParam Long userId) {
         try {
-
             return ResponseEntity.ok(clubService.playMatch(userId));
         }catch (UserNotFoundException | ClubNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);

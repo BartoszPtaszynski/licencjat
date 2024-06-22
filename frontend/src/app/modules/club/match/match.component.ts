@@ -64,8 +64,6 @@ export class MatchComponent implements OnInit {
           this.snackbar.openWarnSnackBar(
             'nie znaleziono aktualnie przeciwnika z pełnym składem w tej lidze. Musisz chwilę poczekać'
           );
-        } else {
-          console.log(error);
         }
       }
     );

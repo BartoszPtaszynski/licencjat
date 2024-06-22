@@ -66,29 +66,25 @@ public class PlayerService {
     }
 
     public Long login(PlayerLoginCommand command) {
-
-        Player player = playerRepository.findPlayerByUsername(command.getUsername()).orElseThrow(()-> new UserNotFoundException("not found"));
+        Player player = playerRepository.findPlayerByUsername(command.getUsername())
+                .orElseThrow(()-> new UserNotFoundException("not found"));
         if(passwordEncoder.matches(command.getPassword(),player.getPassword())) {
             return player.getId();
         } else {
             throw new UserNotFoundException("password incorrect");
         }
+    }
 
-}
+    public PlayerInfo findPlayerInfoById(String id) {
 
-    public ResponseEntity<?>  findPlayerInfoById(String id) {
-        try {
-            Player player = playerRepository.findPlayerById(Long.valueOf(id)).orElseThrow(()->new UserNotFoundException("player not found"));
-            PlayerInfo playerInfo = PlayerInfo.builder()
-                    .id(player.getId())
-                    .username(player.getUsername())
-                    .email(player.getEmail())
-                    .clubId(player.getClub() == null?null:player.getClub().getId())
-                    .build();
-            return new ResponseEntity<>(playerInfo,HttpStatus.ACCEPTED);
-        }catch (UserNotFoundException e) {
-            return new ResponseEntity<>("ERROR",HttpStatus.BAD_REQUEST);
-        }
+        Player player = playerRepository.findPlayerById(Long.valueOf(id))
+                .orElseThrow(()->new UserNotFoundException("player not found"));
+        return PlayerInfo.builder()
+                .id(player.getId())
+                .username(player.getUsername())
+                .email(player.getEmail())
+                .clubId(player.getClub() == null?null:player.getClub().getId())
+                .build();
     }
 
 
@@ -107,23 +103,18 @@ public class PlayerService {
     public String addFriend(Long id1,Long id2) {
         Player player1=playerRepository.findPlayerById(id1).orElseThrow( () -> new UserNotFoundException("user with id "+id1+" not found"));
         Player player2=playerRepository.findPlayerById(id2).orElseThrow( () -> new UserNotFoundException("user with id "+id2+" not found"));
-
-
         if(player1.getPlayerFriends().contains(player2) ) throw new FriendExistsException();
-
         player1.addFriend(player2);
         player2.addFriend(player1);
-
         playerRepository.saveAll(List.of(player1,player2));
         return player1.getPlayerFriends().toString();
     }
+
 
     public List<FriendInfo> getFriends(Long id) {
         Player p = playerRepository.findPlayerById(id).orElseThrow(()->new UserNotFoundException("player not found"));
         List<Player> playerFriends =
                 p.getPlayerFriends();
-
-
         List<FriendInfo> friendInfo= playerFriends.stream()
                 .map(player-> {
                     boolean hasClub = player.getClub() != null;
@@ -142,7 +133,6 @@ public class PlayerService {
 
 
     public List<PlayerLongInfo> findPlayersByPattern(Long id, String searchType,String pattern) {
-
         if(pattern.isEmpty()) return Collections.emptyList();
         List<PlayerLongInfo> players = playerRepository.getPlayerByPattern(id,searchType,pattern)
                 .stream().map(player ->
@@ -153,7 +143,6 @@ public class PlayerService {
                                 .clubName(player.getClub()!=null?player.getClub().getName():"")
                                 .build()
                 ).toList();
-
         return players;
     }
 }

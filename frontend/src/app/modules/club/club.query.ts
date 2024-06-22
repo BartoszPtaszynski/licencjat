@@ -73,3 +73,7 @@ export interface MatchInformation {
   collectedPoints: number;
   newLeague: number;
 }
+export interface ClubCommand {
+  name: string;
+  formation: string;
+}

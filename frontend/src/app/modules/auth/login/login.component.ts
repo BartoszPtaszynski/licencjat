@@ -20,17 +20,11 @@ export class LoginComponent implements OnInit {
   loginError: boolean = false;
   loginCommand: LoginReq = { username: '', password: '' };
 
-  constructor(
-    private _authService: AuthService,
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private _authService: AuthService) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.loginCommand.username + this.loginCommand.password);
     if (!this._authService.login(this.loginCommand)) {
       this.loginError = true;
     }

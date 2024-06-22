@@ -71,7 +71,6 @@ public class Club {
         }
     }
     public Map<String,Integer> setValueAndFundsAfterMatch(boolean isWon) {
-
         int newValue=0;
         int newFunds=0;
         if(isWon) {
@@ -95,9 +94,7 @@ public class Club {
                 case 1 -> {
                     newValue=1000;
                     newFunds=12500;
-                }
-            }
-        }
+                }}}
         else {
             switch (league) {
                 case 5 -> {
@@ -119,10 +116,7 @@ public class Club {
                 case 1 -> {
                     newValue=-750;
                     newFunds=-4000;
-                }
-            }
-
-        }
+                }}}
         value+=newValue;
         funds+=newFunds;
         if(value<=0) value=0;

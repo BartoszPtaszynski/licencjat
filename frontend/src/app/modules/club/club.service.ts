@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { ClubCommand } from './club.command';
+
 import { AuthService } from '../auth/auth.service';
 import { Observable, map } from 'rxjs';
 import {
+  ClubCommand,
   ClubInformation,
   Footballer,
   FootballerClub,
@@ -30,7 +31,6 @@ export class ClubService {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           window.location.reload();
         },
         error: (error) => {

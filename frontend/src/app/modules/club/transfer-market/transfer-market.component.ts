@@ -29,9 +29,8 @@ class Filters {
 })
 export class TransferMarketComponent implements OnInit {
   constructor(
-    public footballerService: ClubService,
+    public clubService: ClubService,
     private snackbarService: SnackbarService,
-    private clubService: ClubService,
     private authService: AuthService
   ) {}
 
@@ -41,7 +40,7 @@ export class TransferMarketComponent implements OnInit {
   clubInfo: ClubInformation;
 
   loadFootballers() {
-    this.footballerService
+    this.clubService
       .getFootballers(
         this.filters.priceFrom,
         this.filters.priceTo,
@@ -79,7 +78,7 @@ export class TransferMarketComponent implements OnInit {
   }
 
   buyFootballer(id: number) {
-    this.footballerService.buyFootballer(id).subscribe(
+    this.clubService.buyFootballer(id).subscribe(
       (result) =>
         this.snackbarService.openSuccessSnackBar(
           'Zawodnik wysłany na ławkę rezerwowych!'
@@ -107,7 +106,7 @@ export class TransferMarketComponent implements OnInit {
     this.filters = new Filters();
     this.loadFootballers();
 
-    this.footballerService.getPositions().subscribe(
+    this.clubService.getPositions().subscribe(
       (result) => (this.positions = result),
       (error) => this.snackbarService.openWarnSnackBar(error.error)
     );

@@ -17,10 +17,7 @@ class RegistrationReq {
   styleUrl: './registration.component.css',
 })
 export class RegistrationComponent implements OnInit {
-  constructor(
-    private _authService: AuthService,
-    private _snackBar: MatSnackBar
-  ) {
+  constructor(private _authService: AuthService) {
     this.errorSignUp = { status: false, message: '' };
   }
   registrationReq: RegistrationReq = new RegistrationReq();

@@ -13,8 +13,6 @@ import static jakarta.persistence.EnumType.STRING;
 @Setter
 public class ClubCommand {
     private String name;
-
     @Enumerated(STRING)
     private FormationEnum formation;
-
 }

@@ -9,9 +9,9 @@ import { ClubService } from '../../club.service';
 import { SnackbarService } from '../../../../snackbar.service';
 
 @Component({
-  selector: 'app-change-footballer-modal',
-  templateUrl: './change-footballer-modal.component.html',
-  styleUrl: './change-footballer-modal.component.css',
+  selector: 'app-change-formation-modal',
+  templateUrl: './change-formation-modal.component.html',
+  styleUrl: './change-formation-modal.component.css',
 })
 export class ChangeFormationModalComponent implements OnInit {
   constructor(

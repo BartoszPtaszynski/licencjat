@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangeFootballerModalComponent } from './change-formation-modal/change-formation-modal.component';
+import { ChangeFormationModalComponent } from './change-formation-modal/change-formation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FootballerDetailsModalComponent } from './footballer-details-modal/footballer-details-modal.component';
 
@@ -34,7 +34,7 @@ export class SquadComponent implements OnInit {
   clubInfo: ClubInformation = null;
 
   openChangeFormation(): void {
-    const dialogRef = this.dialog.open(ChangeFootballerModalComponent, {
+    const dialogRef = this.dialog.open(ChangeFormationModalComponent, {
       panelClass: 'custom-dialog',
       data: { formation: this.clubInfo.formation },
     });

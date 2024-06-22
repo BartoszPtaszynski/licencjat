@@ -19,9 +19,12 @@ public interface FootballerRepository extends JpaRepository<Footballer,Long> {
 
     @Query("SELECT footballer FROM footballers footballer " +
             "JOIN footballer.footballerPositions positions " +
-            "WHERE footballer.value >= :priceFrom AND footballer.value <= :priceTo AND footballer.rating >= :ratingFrom AND footballer.rating <= :ratingTo " +
+            "WHERE footballer.value >= :priceFrom AND footballer.value <= :priceTo " +
+            "AND footballer.rating >= :ratingFrom AND footballer.rating <= :ratingTo " +
             "AND ( :positionId = 0  OR positions.id = :positionId) "+
             "ORDER BY footballer.rating DESC")
-    List<Footballer> findByFilters(@Param("priceFrom") int priceFrom, @Param("priceTo") int priceTo, @Param("ratingFrom") int ratingFrom, @Param("ratingTo") int ratingTo, @Param("positionId") Long positionId);
+    List<Footballer> findByFilters(@Param("priceFrom") int priceFrom, @Param("priceTo") int priceTo,
+                                   @Param("ratingFrom") int ratingFrom, @Param("ratingTo") int ratingTo,
+                                   @Param("positionId") Long positionId);
 
 }

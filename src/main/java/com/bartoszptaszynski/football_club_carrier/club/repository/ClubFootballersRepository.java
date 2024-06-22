@@ -24,7 +24,7 @@ public interface ClubFootballersRepository extends JpaRepository<ClubFootballers
             " clubFootballer.footballer, " +
             "clubFootballer.position)from " +
             "club_footballers clubFootballer where clubFootballer.club.id=:id ")
-    public List<FootballerClubDto> allClubFootballers(@Param("id") Long id);
+     List<FootballerClubDto> allClubFootballers(@Param("id") Long id);
 
 
     @Query("select footballer.position from club_footballers  footballer " +

@@ -42,21 +42,20 @@ public class ClubService {
 
     @Transactional
     public void addClub(ClubCommand command,Long playerId){
-        Player player = playerRepository.findPlayerById(playerId).orElseThrow(()->new UserNotFoundException("player not found"));
-
+        Player player = playerRepository.findPlayerById(playerId).orElseThrow(
+                ()->new UserNotFoundException("player not found"));
         if(player.getClub() != null) {
             throw new RuntimeException("player has already club");
         }
-
         Club club = new Club(command.getName(),(command.getFormation()),player);
         clubRepository.save(club);
-
         player.setClub(club);
         playerRepository.save(player);
-
         List<ClubFootballers> clubFootballers = club.getFormation().getListOfPositions().stream()
-                                                .map(position->new ClubFootballers(club,footballerRepository.findByPosition(position),positionRepository.findByShortcut(position)))
-                                                .toList();
+                .map(position->
+                        new ClubFootballers(club,footballerRepository.findByPosition(position),
+                                positionRepository.findByShortcut(position)))
+                .toList();
         clubFootballersRepository.saveAll(clubFootballers);
     }
     public List<FootballerClubDto> getClubFootballers(Long id)
@@ -70,20 +69,20 @@ public class ClubService {
         }
         List<FootballerClubDto> footballerClubDtos = clubFootballersRepository.allClubFootballers(clubId);
         List<Position> activePositions = footballerClubDtos.stream().map(FootballerClubDto::getActivePosition).toList();
-
-
-        List<Position> positions = positionRepository.findByListOfShortcut(player.getClub().getFormation().getListOfPositions());
+        List<Position> positions = positionRepository.findByListOfShortcut(
+                player.getClub().getFormation().getListOfPositions());
         for(Position position:positions) {
             if(! activePositions.contains(position)) {
-                footballerClubDtos.add(new FootballerClubDto(null,"BRAK ZAWODNIKA",null,0,0,null,position));
+                footballerClubDtos.add(new FootballerClubDto(null,"BRAK ZAWODNIKA",
+                        null,0,0,null,position));
             }
         }
-
         return footballerClubDtos;
     }
 
     public ClubInformationDto getInformationAboutClub(Long idOfUser) {
-        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(() -> new UserNotFoundException(idOfUser.toString()));
+        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(() ->
+                new UserNotFoundException(idOfUser.toString()));
         Club club;
         if (player.getClub() == null) {
             throw new ClubNotFoundException("id of user" + idOfUser);
@@ -102,14 +101,15 @@ public class ClubService {
     }
 
     public String buyFootballer(Long idOfUser, Long idOfFootballer)  {
-        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(() -> new UserNotFoundException(idOfUser.toString()));
-        Footballer footballer = footballerRepository.findById(idOfFootballer).orElseThrow(() -> new FootballerNotFoundException(idOfFootballer));
-
+        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(
+                () -> new UserNotFoundException(idOfUser.toString()));
+        Footballer footballer = footballerRepository.findById(idOfFootballer).orElseThrow(
+                () -> new FootballerNotFoundException(idOfFootballer));
         Club club;
         if(player.getClub() == null) throw new ClubNotFoundException(" player id "+idOfUser);
         club = player.getClub();
-        if(clubFootballersRepository.existsByFootballerAndClub(footballer,club)) throw new IllegalStateException("footballer already in club");
-
+        if(clubFootballersRepository.existsByFootballerAndClub(footballer,club))
+            throw new IllegalStateException("footballer already in club");
         if(club.getFunds()<footballer.getValue()) {
             throw new IllegalStateException("not enough money");
         }
@@ -122,37 +122,33 @@ public class ClubService {
     }
 
     public Footballer sellFootballer(Long idOfUser, Long idOfFootballer)  {
-        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(() -> new UserNotFoundException(idOfUser.toString()));
-        Footballer footballer = footballerRepository.findById(idOfFootballer).orElseThrow(() -> new FootballerNotFoundException(idOfFootballer));
-
+        Player player = playerRepository.findPlayerById(idOfUser).orElseThrow(
+                () -> new UserNotFoundException(idOfUser.toString()));
+        Footballer footballer = footballerRepository.findById(idOfFootballer).orElseThrow(
+                () -> new FootballerNotFoundException(idOfFootballer));
         Club club;
         if(player.getClub() == null) throw new ClubNotFoundException(" player id "+idOfUser);
-
         club = player.getClub();
-
-        ClubFootballers clubFootballers = clubFootballersRepository.findByFootballerAndClub(footballer,club).orElseThrow(()->new IllegalStateException("footballer is not in the club"));
-
+        ClubFootballers clubFootballers = clubFootballersRepository.findByFootballerAndClub(footballer,club)
+                .orElseThrow(()->new IllegalStateException("footballer is not in the club"));
         club.setFunds(club.getFunds()+footballer.getValue());
         clubRepository.save(club);
         clubFootballersRepository.delete(clubFootballers);
-
         return footballer;
     }
 
     public List<FootballerClubDto> footballersToChange(Long footballerId, Long userId) {
         List<FootballerClubDto> clubFootballers = getClubFootballers(userId);
         Club club = playerRepository.findPlayerById(userId).get().getClub();;
-
-        FootballerClubDto footballerDto = clubFootballersRepository.findByFootballerId(footballerId,club).orElseThrow(()-> new FootballerNotFoundException(footballerId));
-
+        FootballerClubDto footballerDto = clubFootballersRepository
+                .findByFootballerId(footballerId,club).orElseThrow(
+                        ()-> new FootballerNotFoundException(footballerId));
         if(footballerDto.getActivePosition().getShortcut().equals("R")) {
-
             return clubFootballers.stream()
                     .filter(footballer->!footballer.getActivePosition().getShortcut().equals("R"))
                     .filter(footballer->footballerDto.getFootballerPositions().contains(footballer.getActivePosition()))
                     .toList();
         } else {
-
             return clubFootballers.stream()
                     .filter(footballer->footballer.getActivePosition().getShortcut().equals("R"))
                     .filter(footballer -> footballer.getFootballerPositions().contains(footballerDto.getActivePosition()))
@@ -177,12 +173,9 @@ public class ClubService {
         Position positionToChange = footballer1.getPosition();
         footballer1.setPosition(footballer2.getPosition());
         footballer2.setPosition(positionToChange);
-
         clubFootballersRepository.save(footballer1);
         clubFootballersRepository.save(footballer2);
-
     }
-
     public void changeFootballerWithEmptyPosition(Long footballerId, String positionShortcut, Long userId) {
         Club club = playerRepository.findPlayerById(userId).orElseThrow(()->  new UserNotFoundException(userId.toString())).getClub();
         if(club == null) {
@@ -217,7 +210,8 @@ public class ClubService {
                     }
                 }
         );
-        List<ClubFootballers> availableFootballers = new ArrayList<>(clubFootballers.stream().filter(footballer -> footballer.getPosition().equals(reserve)).toList());
+        List<ClubFootballers> availableFootballers = new ArrayList<>(clubFootballers.stream().filter(
+                footballer -> footballer.getPosition().equals(reserve)).toList());
 
         for(Position position: positions) {
             Optional<ClubFootballers> matchingFootballer =    availableFootballers.stream()
@@ -229,7 +223,6 @@ public class ClubService {
                 availableFootballers.remove(footballer);
             }
         }
-
         club.setFormation(formationEnum);
         clubRepository.save(club);
         clubFootballersRepository.saveAll(clubFootballers);
@@ -243,75 +236,49 @@ public class ClubService {
         if(guestClub == null) {
             throw new ClubNotFoundException("this league");
         }
-
-
-        log.warn(guestClub.getName());
-
         int hostRating=clubFootballersRepository.getRatingOfSquad(hostClub.getId());
         int guestRating=clubFootballersRepository.getRatingOfSquad(guestClub.getId());
-
         int sumOfRatings=hostRating+guestRating;
-        //draw  ~~15%
-
-        int SumWithDraw= (int) Math.round(sumOfRatings/0.85);
-
+        int SumWithDraw= (int) Math.round(sumOfRatings/0.85);//draw  ~~15%
         Random random=new Random();
         int drawnNumber = random.nextInt(SumWithDraw)+1;
         int guestScore;
         int hostScore;
-
         int hostCollectedMoney=0;
         int hostCollectedPoints=0;
         int guestCollectedMoney=0;
         int guestCollectedPoints=0;
-
         if( drawnNumber<=hostRating) {
-            hostScore=random.nextInt(5)+1;
-            guestScore=random.nextInt(hostScore);
-            Map<String,Integer> map = hostClub.setValueAndFundsAfterMatch(true);
+            hostScore = random.nextInt(5) + 1;
+            guestScore = random.nextInt(hostScore);
+            Map<String, Integer> map = hostClub.setValueAndFundsAfterMatch(true);
             hostCollectedMoney = map.get("funds");
             hostCollectedPoints = map.get("value");
             map = guestClub.setValueAndFundsAfterMatch(false);
             guestCollectedMoney = map.get("funds");
             guestCollectedPoints = map.get("value");
-
-        }
-        else if(drawnNumber<=hostRating+guestRating)
-        {
+        } else if(drawnNumber<=hostRating+guestRating) {
             guestScore=random.nextInt(5)+1;
             hostScore=random.nextInt(guestScore);
             Map<String,Integer> map = hostClub.setValueAndFundsAfterMatch(false);
             hostCollectedMoney = map.get("funds");
             hostCollectedPoints = map.get("value");
-
             map = guestClub.setValueAndFundsAfterMatch(true);
             guestCollectedMoney = map.get("funds");
             guestCollectedPoints = map.get("value");
-        }
-        else {
+        } else {
             guestScore=random.nextInt(5)+1;
             hostScore=guestScore;
         }
         clubRepository.save(hostClub);
         clubRepository.save(guestClub);
-
-        MatchDto matchInfo=MatchDto.builder()
-                .hostTeamScore(hostScore)
-                .guestTeamScore(guestScore)
-                .hostClubName(hostClub.getName())
-                .guestClubName(guestClub.getName())
-                .hostSquadRating(hostRating)
-                .guestSquadRating(guestRating)
-                .collectedPoints(hostCollectedPoints)
-                .collectedMoney(hostCollectedMoney)
-                .league(league)
-                .newLeague(hostClub.getLeague())
+        MatchDto matchInfo=MatchDto.builder().hostTeamScore(hostScore).guestTeamScore(guestScore).hostClubName(hostClub.getName())
+                .guestClubName(guestClub.getName()).hostSquadRating(hostRating).guestSquadRating(guestRating)
+                .collectedPoints(hostCollectedPoints).collectedMoney(hostCollectedMoney).league(league).newLeague(hostClub.getLeague())
                 .build();
-
-
-        Match match=new Match(hostScore,guestScore,hostClub,guestClub,league,hostCollectedMoney,guestCollectedMoney,hostRating,guestRating,hostCollectedPoints,guestCollectedPoints);
+        Match match=new Match(hostScore,guestScore,hostClub,guestClub,league,hostCollectedMoney,guestCollectedMoney,hostRating,guestRating,
+                hostCollectedPoints,guestCollectedPoints);
         matchRepository.save(match);
-
     return matchInfo;
     }
 
