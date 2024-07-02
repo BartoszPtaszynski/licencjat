@@ -7,6 +7,7 @@
 3. **Node.js i npm**
 4. **Angular CLI**
 5. **PostgreSQL**
+6. **Intelij**
 
 ## Kroki do uruchomienia
 
@@ -26,18 +27,15 @@
    spring.datasource.username=twoj_uzytkownik
    spring.datasource.password=twoje_haslo
    ```
+   gdzie użytkownik ma wszystkie potrzebne uprawnienia 
 
 ### 3. Uruchomienie aplikacji Spring Boot
 
-1. Za pomocą Mavena lub IntelliJ uruchomić aplikację:
-   ```sh
-   mvn clean install
-   mvn spring-boot:run
-   ```
+1. Za pomocą  IntelliJ uruchomić aplikację:
 
 ### 4. Uruchomienie aplikacji Angular
 
-1. Przejść do folderu `frontend` i uruchomić następujące komendy:
+1. Przejść do folderu `frontend` w konsoli i wywołać następujące komendy:
    ```sh
    npm install
    npm start
