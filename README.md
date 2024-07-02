@@ -2,7 +2,7 @@
 
 ## Wymagania wstępne
 
-1. **Java Development Kit (JDK) 17**
+1. **Java Development Kit (JDK)**
 2. **Maven**
 3. **Node.js i npm**
 4. **Angular CLI**
@@ -12,7 +12,7 @@
 
 ### 1. Konfiguracja bazy danych PostgreSQL
 
-1. Należy stworzyć lokalnie bazę danych o nazwie opartą na PostgreSQL `club_career`.
+1. Należy stworzyć lokalnie bazę danych opartą na PostgreSQL o nazwie `club_career`.
 2. Wywołać na utworzonej bazie kod SQL, który jest zawarty w pliku w projekcie o nazwie `kodBazyDanych.sql`.
 
 ### 2. Konfiguracja aplikacji Spring Boot
