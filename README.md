@@ -2,7 +2,7 @@
 
 ## Wymagania wstępne
 
-1. **Java Development Kit (JDK)**
+1. **Java Development Kit (JDK) 17**
 2. **Maven**
 3. **Node.js i npm**
 4. **Angular CLI**
@@ -14,6 +14,7 @@
 
 1. Należy stworzyć lokalnie bazę danych opartą na PostgreSQL o nazwie `club_career`.
 2. Wywołać na utworzonej bazie kod SQL, który jest zawarty w pliku w projekcie o nazwie `kodBazyDanych.sql`.
+>>>>>>>>> Temporary merge branch 2
 
 ### 2. Konfiguracja aplikacji Spring Boot
 
