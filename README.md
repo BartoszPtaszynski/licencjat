@@ -2,7 +2,7 @@
 
 ## Wymagania wstępne
 
-1. **Java Development Kit (JDK) 17**
+1. **Java Development Kit (JDK)**
 2. **Maven**
 3. **Node.js i npm**
 4. **Angular CLI**
