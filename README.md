@@ -14,8 +14,6 @@
 
 1. Należy stworzyć lokalnie bazę danych opartą na PostgreSQL o nazwie `club_career`.
 2. Wywołać na utworzonej bazie kod SQL, który jest zawarty w pliku w projekcie o nazwie `kodBazyDanych.sql`.
->>>>>>>>> Temporary merge branch 2
-
 
 ### 2. Konfiguracja aplikacji Spring Boot
 
